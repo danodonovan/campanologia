@@ -25,7 +25,7 @@ class MethodsStatus(models.Model):
 
 
 class MethodOrderCount(models.Model):
-    """ Information about methods in database """
+    """ Information about method in database """
     ORDER_CHOICES = (
         ( 4, 'Minimus'),
         ( 5, 'Doubles'),
@@ -64,7 +64,7 @@ evenBells = ['2', '4', '6', '8', '0', 'T', 'B', 'D']
 placeBells = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'E', 'T', 'A', 'B', 'C', 'D']
 
 class Method(models.Model):
-    """ Simple method class - to hold all methods from that CSV file """
+    """ Simple method class - to hold all method from that CSV file """
 
     nbells = models.IntegerField('Number of bells', null=True)
     name = models.CharField('Name of the method', max_length=255)
@@ -126,7 +126,7 @@ class Method(models.Model):
 
             if n.find('LH') > 0:
                 (nr, lh) = n.split('LH')
-            else: # to cope with asymetric methods
+            else: # to cope with asymetric method
                 (nr, lh) = (n, None)
 
             i = 0
@@ -198,7 +198,7 @@ class Method(models.Model):
 
             self.allChanges, self.leadends = [], []
 
-            # NB - lh sometimes none to cope with asymetric methods
+            # NB - lh sometimes none to cope with asymetric method
             (n, lh) = (self.notation, self.leadHead)
 
             nn = len( n )
@@ -216,7 +216,7 @@ class Method(models.Model):
             # Keep ringing until it comes round
             while b != rounds or l_i == 0:
 
-                # for methods where places are not reversed (half lenght)
+                # for method where places are not reversed (half lenght)
                 if not lh and not p_i:
                     self.leadends.append(b[:])
                     leadEnd_i += 1

@@ -21,7 +21,7 @@ def match_view(request, match):
     methods = get_list_or_404(Method, name__icontains=match)
 
     return render_to_response('method/method_list.html',
-        {'match':match, 'methods':methods},
+        {'match':match, 'method':methods},
         context_instance=RequestContext(request))
 
 def order_view(request, order):
@@ -30,7 +30,7 @@ def order_view(request, order):
     order = MethodOrderCount.objects.filter(order=order).latest()
 
     return render_to_response('method/method_list.html',
-        {'order':order, 'methods':methods},
+        {'order':order, 'method':methods},
         context_instance=RequestContext(request))
 
 

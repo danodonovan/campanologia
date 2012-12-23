@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 
 from method.models import Method
 
-# methods = {
+# method = {
 #     'name' : 
 # }
 
