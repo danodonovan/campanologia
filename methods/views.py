@@ -2,9 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.template  import RequestContext
 from django.template.loader import render_to_string
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 
-from method.models import Method, MethodOrderCount
+from methods.models import Method, MethodOrderCount
+
+def home(request):
+    return render_to_response('method/method.html')
 
 def method_view(request, slug):
 
