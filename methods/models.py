@@ -48,7 +48,8 @@ class MethodOrderCount(models.Model):
     count = models.IntegerField(null=True)
     updated = models.DateField()
 
-    # get_order_display()
+    def get_absolute_url(self):
+        return reverse('methods:order', args=[self.order,])
 
     class Meta:
         ordering = ['order']
@@ -80,11 +81,7 @@ class Method(models.Model):
     leadends = PickledObjectField('Leadends', null=True)
     changes = PickledObjectField('Changes', null=True)
 
-    # @models.permalink
     def get_absolute_url(self):
-        # return "%s" % self.slug
-        # return reverse('methods.views.method_view', args=[self.slug,])
-        # return ('methods.view.method_view', [str(self.slug)])
         return reverse('methods:single_method', args=[self.slug,])
 
     def __str__(self):
