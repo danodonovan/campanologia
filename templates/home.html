@@ -1,56 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}{{ method_name }}{% endblock %}
-
-{% block js %}
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script>
-$(document).ready( function() {
-    $.get("/json/xhr_test", function(data) {
-        blue_line( data );
-    });
-});
-
-function blue_line( data ) {
-        c_id = 1;
-        var canvas = document.getElementById("c_1");
-        var t_context = canvas.getContext("2d");
-
-        var x1 = 0;        var x2 = 0;
-        var y1 = 0;        var y2 = 0;
-
-        // Draw the lines
-        for (i=0;i<nleads;i=i+1) {
-
-            x1 = data.x1;
-            x2 = data.x2;
-            y1 = data.y1;
-            y2 = data.y2;
-
-            t_context.moveTo( x1+0.5, y1+0.5);
-            t_context.lineTo( x2+0.5, y2+0.5);
-
-            // Now fill in the lines
-            t_context.strokeStyle = "#ff0000";
-            t_context.stroke();
-        };
-/*
-        var context_2 = canvas.getContext("2d");
-    {% for x1, y1, x2, y2 in bell_2 %}
-        context_2.moveTo({{ x1 }}+0.5, {{ y1 }}+0.5);
-        context_2.lineTo({{ x2 }}+0.5, {{ y2 }}+0.5);{% endfor %}
-        // Now fill in the lines
-        context_2.strokeStyle = "#0000ff";
-        context_2.stroke();
-
- */
-    }
-</script>
-{% endblock js %}
-
+{% block title %}Blue Line Method Generator{% endblock %}
 
 {% block content %}
-<h1>{{ method_name }}</h1>
-<canvas id="c_1" width="{{ canvas_x }}" height="{{ canvas_y }}"></canvas>
-<canvas id="c_2" width="{{ canvas_x }}" height="{{ canvas_y }}"></canvas>
+<h1>Bellringing Methods</h1>
+
+    <p>Bell ringers sometimes need blue lines quickly, this site aims to provide just that.</p>
+
+    <h2>Methods for</h2>
+    {% for order in orders %}
+        <ul>
+            <li><a href="{{ order.get_absolute_url }}">{{ order.get_order_display }} Methods ({{ order.order }} bells)
+                <i>{{ order.count }}</i></a>
+            </li>
+        </ul>
+    {% endfor %}
+
 {% endblock %}

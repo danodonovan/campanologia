@@ -9,10 +9,6 @@ from methods.models import Method, MethodOrderCount
 
 logger = logging.getLogger('django_debug')
 
-def home(request):
-    logger.debug('home')
-    return render_to_response('method/method.html')
-
 def method_view(request, slug):
     logger.debug('method_view <slug> %s' % slug)
     method = get_object_or_404(Method, slug__iexact=slug)

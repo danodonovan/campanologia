@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
+from bells.views import home
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^$', home, name='home'),
     # Examples:
     url(r'^methods/', include('methods.urls', namespace='methods', app_name='methods')),
     # url(r'^methods/', include('methods.urls')),
