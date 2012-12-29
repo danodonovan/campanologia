@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+import logging
+
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.template  import RequestContext
 from django.template.loader import render_to_string
@@ -6,11 +7,14 @@ from django.views.generic import DetailView
 
 from methods.models import Method, MethodOrderCount
 
+logger = logging.getLogger('django_debug')
+
 def home(request):
+    logger.debug('home')
     return render_to_response('method/method.html')
 
 def method_view(request, slug):
-
+    logger.debug('method_view <slug> %s' % slug)
     method = get_object_or_404(Method, slug__iexact=slug)
 
     javascript = render_to_string('js/blueline.js', {'method': method})
@@ -20,7 +24,7 @@ def method_view(request, slug):
         context_instance=RequestContext(request))
 
 def match_view(request, match):
-
+    logger.debug('match_view <match> %s' % match)
     methods = get_list_or_404(Method, name__icontains=match)
 
     return render_to_response('method/method_list.html',
@@ -28,12 +32,12 @@ def match_view(request, match):
         context_instance=RequestContext(request))
 
 def order_view(request, order):
-
+    logger.debug('order_view <order> %s' % order)
     methods = get_list_or_404(Method, nbells=order)
     order = MethodOrderCount.objects.filter(order=order).latest()
 
     return render_to_response('method/method_list.html',
-        {'order':order, 'method':methods},
+        {'order':order, 'methods':methods},
         context_instance=RequestContext(request))
 
 
