@@ -1,7 +1,6 @@
-{% block title %}
-        <title>{{order}} Methods</title>
-{% endblock title %}
-{% block body %}
+{% extends "base.html" %}
+{% block title %}{{order}} Methods{% endblock title %}
+{% block content %}
 	<article>
 	    <h1>{{order.get_order_display}} Methods</h1>
 	    <p>
@@ -12,5 +11,5 @@
             <br /><a href="{{ method.get_absolute_url }}">{{ method.name }}</a>
 	    {% endfor %}
 	</article>
-{% endblock body %}
+{% endblock content %}
 
