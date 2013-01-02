@@ -64,8 +64,8 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/odonovan/Sites/bootstrap',
-    '/Users/odonovan/PycharmProjects/bells_dj/bells/static_files',
+    os.path.abspath(os.path.join('..', 'bootstrap')),
+    os.path.abspath(os.path.join('bells', 'static_files')),
 )
 
 # List of finder classes that know how to find static files in
@@ -103,7 +103,7 @@ ROOT_URLCONF = 'bells.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bells.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/odonovan/PycharmProjects/bells_dj/templates',)
+TEMPLATE_DIRS = (os.path.abspath('templates'), )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
