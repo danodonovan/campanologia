@@ -89,7 +89,9 @@ STATICFILES_DIRS = (
 #os.path.abspath(os.path.join('bells', 'static_files')),
 )
 
-TEMPLATE_DIRS = ('/home/methodri/django_sites/bells_dj/templates', )
+TEMPLATE_DIRS = (
+    None,
+)
 
 LOGGING = None
 
