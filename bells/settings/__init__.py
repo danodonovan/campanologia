@@ -82,16 +82,13 @@ STATIC_URL = None
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-# Put strings here, like "/home/html/static" or "C:/www/django/static".
-# Always use forward slashes, even on Windows.
-# Don't forget to use absolute paths, not relative paths.
-#os.path.abspath(os.path.join('..', 'bootstrap')),
-#os.path.abspath(os.path.join('bells', 'static_files')),
-)
-
-TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
     None,
 )
+
+TEMPLATE_DIRS = (None,)
 
 LOGGING = None
 
