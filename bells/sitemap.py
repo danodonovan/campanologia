@@ -5,7 +5,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 
-from methods.models import Method, MethodOrderCount, MethodsStatus
+from methods.models import Method, MethodSet
 
 class StaticSitemap(Sitemap):
     priority = 0.5
@@ -39,7 +39,7 @@ class BaseSitemap(Sitemap):
         return obj.get_absolute_url()
 
     def lastmod(self, obj):
-        return MethodsStatus.objects.latest().updated
+        return MethodSet.objects.latest().updated
 
 class MethodSitemap(BaseSitemap):
     changefreq = "monthly"
@@ -51,7 +51,7 @@ class MethodOrderCountSitemap(BaseSitemap):
     changefreq = "monthly"
 
     def items(self):
-        return MethodOrderCount.objects.all()
+        return MethodSet.objects.all()
 
 
 sitemaps = {

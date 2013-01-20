@@ -65,7 +65,7 @@ class Command(BaseCommand):
                            method_set=ms,
                            name=find_tag_text(method, 'name'),
                            classification=find_tag_text(method, 'classification'),
-                           notation=find_tag_text(method, 'notation'),
+                           raw_notation=find_tag_text(method, 'notation'),
                            title=find_tag_text(method, 'title'),
                            leadHeadCode=find_tag_text(method, 'leadHead'),
                            method_notes=find_tag_text(method, 'notes'))
