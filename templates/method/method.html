@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ method.name|default:'Default Method Name' }}{% endblock title %}
+{% block title %}{{ method.title|default:'Default Method Name' }}{% endblock title %}
 {% block js %}
     <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/bells.js"></script>
@@ -8,13 +8,13 @@
 {% endblock js %}
 {% block content %}
 	<article>
-	    <h1>{{ method.name|default:'Default Method Name' }}</h1>
+	    <h1>{{ method.title|default:'Default Method Name' }}</h1>
 	    <p>
 	        <strong>Alpha Warning</strong> This is a very new and still being developed website - 
 	        expect things to move, things to (sometimes) be wrong, and things to get better soon!
 	    </p>
 	    {% if method.problem %}<h2>There may well be a problem with this entry</h2>{% endif %}
-	    <h2>{{ method.places|default:'Default Place Notation' }}</h2>
+	    <h2>{{ method.notation|default:'Default Place Notation' }}</h2>
 		<div id='method_blocks'>
 		</div>
 	</article>

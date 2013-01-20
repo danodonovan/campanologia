@@ -92,14 +92,14 @@ class MethodSet(models.Model):
     p_stage = models.IntegerField('properties->stage')
     p_lengthOfLead = models.IntegerField('properties->lengthOfLead')
     p_numberOfHunts = models.IntegerField('properties->numberOfHunts')
-    p_huntBellPath = models.CharField('properties->huntBellPath', max_length=255)
-    p_symmetry = models.CharField('properties->symmetry', max_length=255)
+    p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
+    p_symmetry = models.CharField('properties->symmetry', max_length=31)
 
     def __str__(self):
         return unicode(self).encode('utf-8')
 
     def __unicode__(self):
-        return '{notes} {nbells} bells'.format(notes=self.notes, nbells=self.p_stage)
+        return '{notes} ({nbells} bells)'.format(notes=self.notes, nbells=self.p_stage)
 
 
 class Method(models.Model):
@@ -113,11 +113,12 @@ class Method(models.Model):
     title = models.CharField('title', max_length=255, unique=True)
     slug = models.SlugField('slug', max_length=255)
     name = models.CharField('name', max_length=255)
-    raw_notation = models.CharField('notation', max_length=255)
-    notation = models.CharField('notation', max_length=255)
+    raw_notation = models.CharField('notation', max_length=1023)
+    notation = models.CharField('notation', max_length=1023)
+    leadHead = models.CharField('lead head', max_length=31)
 
     # possible nulls
-    leadHeadCode = models.CharField('lead head code', max_length=16)
+    leadHeadCode = models.CharField('lead head code', max_length=31)
     classification = models.CharField('classification', max_length=255)
     method_notes = models.CharField('method notes', max_length=255)
 
@@ -136,7 +137,10 @@ class Method(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        self.notation = self.raw_notation.split(',')[0]
+        rns = self.raw_notation.split(',')
+        self.notation = rns[0]
+        if len(rns) > 1:
+            self.leadHead = rns[1]
         super(Method, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
