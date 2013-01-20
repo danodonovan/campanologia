@@ -49,7 +49,7 @@ class Command(BaseCommand):
                            p_stage=find_tag_text(properties, 'stage'),
                            p_lengthOfLead=find_tag_text(properties, 'lengthOfLead'),
                            p_numberOfHunts=find_tag_text(properties, 'numberOfHunts'),
-                           p_huntBellPath=find_tag_text(properties, 'huntBellPath'),
+                           p_huntBellPath=find_tag_text(properties, 'huntbellPath'),
                            p_symmetry=find_tag_text(properties, 'symmetry'))
             ms.save()
 
@@ -73,7 +73,7 @@ class Command(BaseCommand):
                 m.save()
 
                 try: # can't be bothered to fix for Sméagol
-                    self.logger.debug(u'Method {method} saved'.format(method=m.name))
+                    self.logger.debug(u'Method {method} saved'.format(method=m.title))
                 except UnicodeEncodeError:
                     print 'Unicode{De,En}codeError - probably "Sméagol"'
                     pass
