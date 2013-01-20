@@ -25,9 +25,9 @@ var settings = {
 $(document).ready(
     function draw_blue_line() {
 
-        var course = new Course({{method.nbells}}, {{method.nchanges}}, "{{method.places}}");
+        var course = new Course({{ method.method_set.p_stage }}, {{ method.method_set.p_numberOfHunts }} * {{ method.method_set.p_lengthOfLead }}, "{{ method.notation }}");
 
-        // fact checking
+        // fact checkin g
         // assert(course.lead_ends.length == {{method.nleadends}});
 
         var le_length = course.lead_ends[0];

@@ -3,17 +3,17 @@ import logging
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.template  import RequestContext
 
-from methods.models import MethodOrderCount
+from methods.models import Method, MethodSet
 
 logger = logging.getLogger('django_debug')
 
 def home(request):
     logger.debug('home')
 
-    orders =  MethodOrderCount.objects.order_by('order')
-
+    orders =  MethodSet.objects.order_by('p_stage')
+    count = Method.objects.count()
     return render_to_response('home.html',
-        {'orders': orders},
+        {'orders': orders, 'count': count},
         context_instance=RequestContext(request))
 
 def about(request):

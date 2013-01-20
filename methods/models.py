@@ -1,6 +1,8 @@
 import logging
+
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
 from course import Course
 
@@ -93,6 +95,13 @@ class MethodSet(models.Model):
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=255)
     p_symmetry = models.CharField('properties->symmetry', max_length=255)
 
+    def __str__(self):
+        return unicode(self).encode('utf-8')
+
+    def __unicode__(self):
+        return '{notes} {nbells} bells'.format(notes=self.notes, nbells=self.p_stage)
+
+
 class Method(models.Model):
     """
     Method
@@ -104,6 +113,7 @@ class Method(models.Model):
     title = models.CharField('title', max_length=255, unique=True)
     slug = models.SlugField('slug', max_length=255)
     name = models.CharField('name', max_length=255)
+    raw_notation = models.CharField('notation', max_length=255)
     notation = models.CharField('notation', max_length=255)
 
     # possible nulls
@@ -124,6 +134,11 @@ class Method(models.Model):
     first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='first hand bell peak', null=True)
     first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        self.notation = self.raw_notation.split(',')[0]
+        super(Method, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('methods:single_method', args=[self.slug,])
 
@@ -131,7 +146,7 @@ class Method(models.Model):
         return unicode(self).encode('utf-8')
 
     def __unicode__(self):
-        return self.name
+        return self.title
 
 #    def ring(self, save_changes=False):
 #        self.course = Course(self.nbells, self.places, self.name)
