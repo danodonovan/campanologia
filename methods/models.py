@@ -115,7 +115,7 @@ class Method(models.Model):
     name = models.CharField('name', max_length=255)
     raw_notation = models.CharField('notation', max_length=1023)
     notation = models.CharField('notation', max_length=1023)
-    leadHead = models.CharField('lead head', max_length=31)
+    leadHead = models.CharField('lead head', max_length=63)
 
     # possible nulls
     leadHeadCode = models.CharField('lead head code', max_length=31)
@@ -136,7 +136,7 @@ class Method(models.Model):
     first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         rns = self.raw_notation.split(',')
         self.notation = rns[0]
         if len(rns) > 1:
