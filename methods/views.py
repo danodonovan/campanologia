@@ -14,7 +14,12 @@ def method_view(request, slug):
     logger.debug('method_view <slug> %s' % slug)
     method = get_object_or_404(Method, slug__iexact=slug)
 
-    javascript = render_to_string('js/blueline.js', {'method': method})
+    nbells = method.method_set.p_stage
+    nchanges = (method.method_set.p_stage - method.method_set.p_numberOfHunts) * method.method_set.p_lengthOfLead
+    notation = '%sLH%s' % (method.notation, method.leadHead)
+
+    javascript = render_to_string('js/blueline.js',
+                                  {'method': method, 'nbells': nbells, 'nchanges': nchanges, 'notation': notation})
 
     return render_to_response('method/method.html',
         {'method': method, 'js_blueline':javascript},
