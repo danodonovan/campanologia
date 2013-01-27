@@ -14,7 +14,8 @@
 	        expect things to move, things to (sometimes) be wrong, and things to get better soon!
 	    </p>
 	    {% if method.problem %}<h2>There may well be a problem with this entry</h2>{% endif %}
-	    <h2>{{ method.notation|default:'Default Place Notation' }}</h2>
+	    <h2>{{ method.raw_notation|default:'Default Place Notation' }}</h2>
+        <h2>{{ method.notation }} : {{ method.leadHead }}</h2>
 		<div id='method_blocks'>
 		</div>
 	</article>

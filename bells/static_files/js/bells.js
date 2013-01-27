@@ -47,10 +47,14 @@ Object.prototype.clone = function () {
 };
 
 // ring some bells
-function Course(n_bells, nchanges, raw_notation) {
+function Course(n_bells, nchanges, string_notation, lead_head) {
     "use strict"; var MAX_ITER = 1280;
-    var print_bells = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     var place_bells = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'E', 'T', 'A', 'B', 'C', 'D'];
+
+    // split notation string to array and keep delimiter (can see my nasty hack?)
+    var notation = string_notation.replace(/\X/g,'~X~').split('~')
+
+    if (notation[0] == ""){ notation.splice(0, 1); }
 
     // perform one change of the bells - either switch, or make places "place"
     var _change = function(bells, place) {
@@ -73,75 +77,6 @@ function Course(n_bells, nchanges, raw_notation) {
         } 
         return bells;
     }
-
-    function sanitise_notation() {
-        // clean up the notation for the ringing algorithm
-        var bells = []; var i; var nr = null; var lh = null;
-        for (i = 0; i < n_bells; ++i) { bells[i] = print_bells[i]; }
-        if (/LH/.test(raw_notation)) {
-            nr = raw_notation.split("LH")[0];
-            lh = raw_notation.split("LH")[1];
-        } else {
-            nr = raw_notation;
-            lh = null;
-        }
-
-        var i = 0;
-        var n_t = []; var n = [];
-        var n_t_reset = false;
-
-        // there are edge case problems for Orignal N and Cheeky Little Place Minimus
-        if (nr.length == 1) {
-            // if we're dealing with original even
-            if (nr[0] == '-') {
-                n = n.concat("X");
-                n = n.concat("1");
-                return [n, lh];
-            }
-            // if we're dealing with original odd
-            if (/3|5|7|9|E|A|C/.test(nr[0])) {
-                n = n.concat("X");
-                n = n.concat("1");
-                return [n, lh];
-            }
-            // if we're dealing with Cheeky Little Place
-            else if (nr[0] == '1') {
-                n = n.concat("14");
-                n = n.concat("12");
-                return [n, lh];
-            }
-        }
-
-        while (i<nr.length) {
-            if (n_t_reset) {
-                n_t = [];
-            }
-            if (/-|X|x/.test(nr[i])) {
-                if (n_t.length>0) {
-                    n = n.concat(n_t.join(""));
-                    n_t = [];
-                }
-                n = n.concat("X");
-                n_t_reset = true;
-            } else if (place_bells.contains(nr[i])) { 
-                n_t = n_t.concat(nr[i]);
-                n_t_reset = false;
-            } else {
-                n = n.concat(n_t.join(""));
-                n_t_reset = true;
-            }
-            i += 1;
-        }
-
-        if (n_t.length != 0) {
-            n = n.concat(n_t.join(""));
-        }
-
-        return [n, lh];
-    }
-
-    var s_not_lh = sanitise_notation();
-    var notation = s_not_lh[0]; var lead_head = s_not_lh[1];
 
     var ring = function(n_bells, notation, lead_head) {
         // ring the method using notation provided

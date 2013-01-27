@@ -24,62 +24,83 @@ ORDER_CHOICES = (
     (16, 'Sixteen'),
 )
 
-#class MethodsStatus_old(models.Model):
-#    """ Some information about when the method database was last updated etc. """
-#    updated = models.DateField(unique=True)
-#    num_methods = models.IntegerField()
-#    orders = models.ManyToManyField('MethodOrderCount')
-#
-#    class Meta:
-#        ordering = ['updated']
-#        get_latest_by = 'updated'
-#
-#    def __str__(self):
-#        return unicode(self).encode('utf-8')
-#
-#    def __unicode__(self):
-#        return 'Update %s' % self.updated
+def sanitise_cccbr_notation(raw_notation):
+    """
+    Clean up CCCBR notation for JS plotter
+        - provide method, return updated method (unsaved)
+    """
 
+    # check for lead head
+    if raw_notation.count(',') == 1:
 
-#class MethodOrderCount_old(models.Model):
-#    """ Information about methods in database """
-#
-#    order = models.PositiveIntegerField(choices=ORDER_CHOICES)
-#    count = models.IntegerField(null=True)
-#    updated = models.DateField()
-#
-#    def get_absolute_url(self):
-#        return reverse('methods:order', args=[self.order,])
-#
-#    class Meta:
-#        ordering = ['order']
-#        get_latest_by = 'updated'
-#
-#    def __str__(self):
-#        return unicode(self).encode('utf-8')
-#
-#    def __unicode__(self):
-#        return '%d' % self.order
+        rns = raw_notation.split(',')
 
+        # we've got a symmetric method
+        if len(rns[0]) > len(rns[-1]):
+            nr, lh = rns
 
-#class Method_old(models.Model):
-#    """
-#    Simple method class - to hold all methods from that CSV file
-#    """
-#
-#    nbells = models.IntegerField('Number of bells', null=True)
-#    name = models.CharField('Name of the method', max_length=255)
-#    slug = models.SlugField(max_length=255)
-#    places = models.TextField('Place notation')
-#    calls = models.CharField('call type', max_length=8)
-#    nchanges = models.IntegerField('Number of changes (in a plain course)', null=True)
-#    nleadends = models.IntegerField('Number of lead ends (in a plain course)', null=True)
-#
-#    problem = models.BooleanField('Is there a problem with this entry?')
-#
-#    sanitised_notation = models.TextField('Sanitised Place notation')
-#    leadends = PickledObjectField('Leadends', null=True)
-#    changes = PickledObjectField('Changes', null=True)
+        # we've got a screwy odd bell method
+        elif len(rns[0]) < len(rns[-1]):
+            nr, lh = rns
+
+    elif raw_notation.count(',') == 0:
+        nr, lh = raw_notation, ''
+
+    else:
+        print 'more than one "," in %s : %s' % raw_notation
+        raise Exception
+
+    i = 0
+    n_t, n = [], []
+    n_t_reset = False
+
+    # there are edge case problems for Orignal N and Cheeky Little Place Minimus
+    if len(nr) == 1:
+
+        # if we're dealing with original
+        if nr[0] == '-':
+            n.append('X')
+            n.append('1')
+            return n, lh
+
+        # if we're dealing with original odd
+        if nr[0] in ['3', '5', '7', '9', 'E', 'A', 'C']:
+            n.append('X')
+            n.append('1')
+            return n, lh
+
+        # if we're dealing with Cheeky Little Place
+        elif nr[0] == '1':
+            n.append('14')
+            n.append('12')
+            return n, lh
+
+    while i < len(nr):
+
+        if n_t_reset:
+            n_t = []
+
+        if nr[i] == '-':
+            if n_t:
+                n.append(''.join(n_t))
+                n_t = []
+            n.append('X')
+            n_t_reset = True
+
+        elif nr[i] in raw_notation:
+            n_t.append(nr[i])
+            n_t_reset = False
+
+        else:
+            n.append(''.join(n_t))
+            n_t_reset = True
+
+        i += 1
+
+    if n_t:
+        n.append(''.join(n_t))
+
+    return ''.join(n), lh
 
 
 class MethodSet(models.Model):
@@ -114,8 +135,10 @@ class Method(models.Model):
     slug = models.SlugField('slug', max_length=255)
     name = models.CharField('name', max_length=255)
     raw_notation = models.CharField('notation', max_length=1023)
+
+    # these two produced from sanitise_cccbr_notation
     notation = models.CharField('notation', max_length=1023)
-    leadHead = models.CharField('lead head', max_length=63)
+    leadHead = models.CharField('lead head', max_length=63, blank=True, default='')
 
     # possible nulls
     leadHeadCode = models.CharField('lead head code', max_length=31)
@@ -137,10 +160,7 @@ class Method(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        rns = self.raw_notation.split(',')
-        self.notation = rns[0]
-        if len(rns) > 1:
-            self.leadHead = rns[1]
+        self.notation, self.leadHead = sanitise_cccbr_notation(self.raw_notation)
         super(Method, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -151,21 +171,6 @@ class Method(models.Model):
 
     def __unicode__(self):
         return self.title
-
-#    def ring(self, save_changes=False):
-#        self.course = Course(self.nbells, self.places, self.name)
-#        self.course.ring()
-#
-#        self.nleadends = self.course.nleadends
-#        self.sanitised_notation = self.course.notation
-#        self.nchanges = len(self.course.allChanges)
-#
-#        if save_changes:
-#            self.changes = self.course.allChanges
-#            self.leadends = self.course.leadends
-#
-#        self.save()
-
 
 
 class Performance(models.Model):
