@@ -25,7 +25,7 @@ var settings = {
 $(document).ready(
     function draw_blue_line() {
 
-        var course = new Course({{nbells}}, {{nchanges}}, "{{notation}}");
+        var course = new Course({{nbells}}, {{nchanges}}, "{{method.notation}}", "{{method.leadHead}}");
 
         // fact checkin g
         // assert(course.lead_ends.length == {{method.nleadends}});

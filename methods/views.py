@@ -46,13 +46,11 @@ def random_view(request, order=None):
     count = methods.count()
     random_index = random.randint(0, count - 1)
     method = methods[random_index]
-
     nbells = method.method_set.p_stage
     nchanges = (method.method_set.p_stage - method.method_set.p_numberOfHunts) * method.method_set.p_lengthOfLead
-    notation = '%sLH%s' % (method.notation, method.leadHead)
 
     javascript = render_to_string('js/blueline.js',
-          {'method': method, 'nbells': nbells, 'nchanges': nchanges, 'notation': notation})
+          {'method': method, 'nbells': nbells, 'nchanges': nchanges})
 
     return render_to_response('method/method.html',
         {'method': method, 'js_blueline':javascript},
