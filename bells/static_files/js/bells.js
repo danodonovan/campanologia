@@ -47,14 +47,13 @@ Object.prototype.clone = function () {
 };
 
 // ring some bells
-function Course(n_bells, nchanges, string_notation, lead_head) {
+function Course(n_bells, nchanges, notation, lead_head) {
     "use strict"; var MAX_ITER = 1280;
     var place_bells = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'E', 'T', 'A', 'B', 'C', 'D'];
 
     // split notation string to array and keep delimiter (can see my nasty hack?)
-    var notation = string_notation.replace(/\X/g,'~X~').split('~')
-
-    if (notation[0] == ""){ notation.splice(0, 1); }
+    // var notation = string_notation.replace(/\X/g,'~X~').split('~')
+    // if (notation[0] == ""){ notation.splice(0, 1); }
 
     // perform one change of the bells - either switch, or make places "place"
     var _change = function(bells, place) {
