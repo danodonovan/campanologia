@@ -80,11 +80,12 @@ def sanitise_cccbr_notation(raw_notation):
         if n_t_reset:
             n_t = []
 
-        if nr[i] == '-':
+        if nr[i] == '-' or nr[i] == '.':
             if n_t:
                 n.append(''.join(n_t))
                 n_t = []
-            n.append('X')
+            if nr[i] == '-':
+                n.append('X')
             n_t_reset = True
 
         elif nr[i] in raw_notation:
@@ -100,7 +101,7 @@ def sanitise_cccbr_notation(raw_notation):
     if n_t:
         n.append(''.join(n_t))
 
-    return ''.join(n), lh
+    return '%s' % n.__repr__(), lh
 
 
 class MethodSet(models.Model):
