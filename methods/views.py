@@ -37,10 +37,6 @@ def random_view(request, order=None):
     logger.debug('random_view <order> %s' % order)
 
     methods = Method.objects.all()
-#    if not order:
-#        methods = Method.objects.all()
-#    else:
-#        methods = Method.objects.filter(nbells=order)
 
     # sort_by('?') will kill the SQL performance
     count = methods.count()
@@ -66,6 +62,25 @@ def order_view(request, order):
     return render_to_response('method/method_list.html',
         {'order':order, 'methods':methods},
         context_instance=RequestContext(request))
+
+def method_set_view(request, slug):
+    logger.debug('method_set_view <method_set> %slug' % slug)
+
+    method_set = MethodSet.objects.get(slug=slug)
+    methods = Method.objects.filter(method_set__slug=slug)
+
+    return render_to_response('method/method_set_list.html',
+                              {'method_set': method_set, 'methods': methods},
+                              context_instance=RequestContext(request))
+
+def method_sets_view(request):
+    logger.debug('method_sets_view')
+
+    method_sets = MethodSet.objects.all()
+
+    return render_to_response('method/method_sets_list.html',
+                              {'method_sets': method_sets,},
+                              context_instance=RequestContext(request))
 
 
 #class MethodView(DetailView):

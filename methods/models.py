@@ -110,18 +110,31 @@ class MethodSet(models.Model):
     """
 
     notes = models.CharField('notes', max_length=255)
-
+    slug = models.SlugField('slug', max_length=255)
     p_stage = models.IntegerField('properties->stage')
     p_lengthOfLead = models.IntegerField('properties->lengthOfLead')
     p_numberOfHunts = models.IntegerField('properties->numberOfHunts')
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
 
+    class Meta:
+        unique_together = ('notes', 'slug',
+                           'p_stage', 'p_lengthOfLead', 'p_numberOfHunts',
+                           'p_huntBellPath', 'p_symmetry',)
+        ordering = ('p_stage', 'notes',)
+
     def __str__(self):
         return unicode(self).encode('utf-8')
 
     def __unicode__(self):
         return '{notes} ({nbells} bells)'.format(notes=self.notes, nbells=self.p_stage)
+
+    def get_absolute_url(self):
+        return reverse('methods:method_set', args=[self.slug,])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.notes)
+        super(MethodSet, self).save(*args, **kwargs)
 
 
 class Method(models.Model):
@@ -158,6 +171,9 @@ class Method(models.Model):
     # performances
     first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='first hand bell peak', null=True)
     first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
+
+    class Meta:
+        ordering = ('title',)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)

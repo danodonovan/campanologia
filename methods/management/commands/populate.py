@@ -45,12 +45,13 @@ class Command(BaseCommand):
             properties = methodSet.find(xmlns('properties'))
 
             # create the MethodSet object first
-            ms = MethodSet(notes=find_tag_text(methodSet, 'notes'),
-                           p_stage=find_tag_text(properties, 'stage'),
-                           p_lengthOfLead=find_tag_text(properties, 'lengthOfLead'),
-                           p_numberOfHunts=find_tag_text(properties, 'numberOfHunts'),
-                           p_huntBellPath=find_tag_text(properties, 'huntbellPath'),
-                           p_symmetry=find_tag_text(properties, 'symmetry'))
+            ms, _ = MethodSet.objects.get_or_create(
+                notes=find_tag_text(methodSet, 'notes'),
+                p_stage=find_tag_text(properties, 'stage'),
+                p_lengthOfLead=find_tag_text(properties, 'lengthOfLead'),
+                p_numberOfHunts=find_tag_text(properties, 'numberOfHunts'),
+                p_huntBellPath=find_tag_text(properties, 'huntbellPath'),
+                p_symmetry=find_tag_text(properties, 'symmetry'))
             ms.save()
 
             self.logger.debug(u'MethodSet %s saved' % ms)
