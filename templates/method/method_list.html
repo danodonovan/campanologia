@@ -8,7 +8,7 @@
 	        expect things to move, things to (sometimes) be wrong, and things to get better soon!
 	    </p>
 	    {% for method in methods %}
-            <br /><a href="{{ method.get_absolute_url }}">{{ method.name }}</a>
+            <br /><a href="{{ method.get_absolute_url }}">{{ method.title }}</a>
 	    {% endfor %}
 	</article>
 {% endblock content %}
