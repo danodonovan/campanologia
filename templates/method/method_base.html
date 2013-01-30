@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ method.title|default:'Default Method Name' }}{% endblock title %}
+{% block js %}
+    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/bells.js"></script>
+    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/draw_bells.js"></script>
+    <script type="text/javascript">{{ js_blueline }}</script>
+{% endblock js %}
+{% block content %}
+    <article>
+        <h1><a href="{{ method.get_absolute_url }}">{{ method.title|default:'Default Method Name' }}</a></h1>
+        <p>
+            <strong>Alpha Warning</strong> This is a very new and still being developed website -
+            expect things to move, things to (sometimes) be wrong, and things to get better soon!
+        </p>
+        {% if method.problem %}<h2>There may well be a problem with this entry</h2>{% endif %}
+
+        <ul class="nav nav-tabs">
+            <li id="nav-bl"><a href="{% url 'methods:single_method' method.slug %}">Blue Line</a></li>
+            <li id="nav-sl"><a href="{% url 'methods:single_method' method.slug %}">Single Lead</a></li>
+            <li id="nav-d"><a href="{% url 'methods:detail_method' method.slug %}">Details</a></li>
+        </ul>
+
+        {% block draw_method %}
+        {% endblock draw_method %}
+
+        <script type="text/javascript">
+            // JavaScript:
+            var blueLineTab = document.getElementById('nav-bl');
+            var singleLeadTab = document.getElementById('nav-sl');
+            var detailTab = document.getElementById('nav-d');
+            // This function will be our event handler:
+            function blClick() {
+                blueLineTab.setAttribute('class', 'active')
+            }
+            function slClick() {
+                alert('Draw a Single Lead!');
+                singleLeadTab.setAttribute('class', 'active')
+            }
+            function dClick() {
+                detailTab.setAttribute('class', 'active')
+            }
+            // This is the event-registration part:
+            blueLineTab.onclick = blClick;
+            singleLeadTab.onclick = slClick;
+            detailTab.onclick = dClick;
+        </script>
+
+    </article>
+{% endblock content %}
