@@ -13,9 +13,6 @@
     {% for order in orders %}
         <ul>
             <li><a href="{{ order.get_absolute_url }}">{{ order }}</a></li>
-{#            <li><a href="{{ order.get_absolute_url }}">{{ order.get_order_display }} Methods ({{ order.order }} bells)#}
-{#                <i>{{ order.count }}</i></a>#}
-{#            </li>#}
         </ul>
     {% endfor %}
 

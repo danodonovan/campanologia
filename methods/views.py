@@ -25,6 +25,13 @@ def method_view(request, slug):
         {'method': method, 'js_blueline':javascript},
         context_instance=RequestContext(request))
 
+def details_view(request, slug):
+    logger.debug('method_view <slug> %s' % slug)
+    method = get_object_or_404(Method, slug__iexact=slug)
+
+    return render_to_response('method/method_detail.html', {'method': method},
+                              context_instance=RequestContext(request))
+
 def match_view(request, match):
     logger.debug('match_view <match> %s' % match)
     methods = get_list_or_404(Method, name__icontains=match)
