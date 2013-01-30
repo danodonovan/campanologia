@@ -1,0 +1,62 @@
+{% extends "method/method_base.html" %}
+{% block draw_method %}
+    <h2>{{ method.raw_notation|default:'Default Place Notation' }}</h2>
+    <p>
+        {{ method.title }} is member of the <a href="{{ method.method_set.get_absolute_url }}">{{ method.method_set.notes }}</a>
+        CCCBR method set.
+    </p>
+
+    <table class="table table-striped">
+
+        {% if method.method_set.p_stage %}
+            <tr>
+                <td><span class="label label-success">Bells</span></td>
+                <td><p>{{ method.method_set.p_stage }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.method_set.p_lengthOfLead %}
+            <tr>
+                <td><span class="label label-success">Lead Length</span></td>
+                <td><p>{{ method.method_set.p_lengthOfLead }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.method_set.p_numberOfHunts %}
+            <tr>
+                <td><span class="label label-success">Number of Huntbells</span></td>
+                <td><p>{{ method.method_set.p_numberOfHunts }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.method_set.p_symmetry %}
+            <tr>
+                <td><span class="label label-success">Symmetry</span></td>
+                <td><p>{{ method.method_set.p_symmetry }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.classification %}
+            <tr>
+                <td><span class="label label-info">classification</span></td>
+                <td><p>{{ method.classification }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.method_notes %}
+            <tr>
+                <td><span class="label label-info">Notes</span></td>
+                <td><p>{{ method.method_notes }}</p></td>
+            </tr>
+        {% endif %}
+
+        {% if method.falseness_groups %}
+            <tr>
+                <td><span class="label label-info">Falseness Groups</span></td>
+                <td><p>{{ method.falseness_groups }}</p></td>
+            </tr>
+        {% endif %}
+    </table>
+
+
+{% endblock draw_method %}
