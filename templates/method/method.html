@@ -1,21 +1,6 @@
-{% extends "base.html" %}
-{% block title %}{{ method.title|default:'Default Method Name' }}{% endblock title %}
-{% block js %}
-    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/bells.js"></script>
-    <script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/draw_bells.js"></script>
-    <script type="text/javascript">{{ js_blueline }}</script>
-{% endblock js %}
-{% block content %}
-	<article>
-	    <h1><a href="{{ method.get_absolute_url }}">{{ method.title|default:'Default Method Name' }}</a></h1>
-	    <p>
-	        <strong>Alpha Warning</strong> This is a very new and still being developed website - 
-	        expect things to move, things to (sometimes) be wrong, and things to get better soon!
-	    </p>
-	    {% if method.problem %}<h2>There may well be a problem with this entry</h2>{% endif %}
-	    <h2>{{ method.raw_notation|default:'Default Place Notation' }}</h2>
-		<div id='method_blocks'>
-		</div>
-	</article>
-{% endblock content %}
+{% extends "method/method_base.html" %}
+{% block draw_method %}
+<h2>{{ method.raw_notation|default:'Default Place Notation' }}</h2>
+<div id='method_blocks'>
+</div>
+{% endblock draw_method %}
