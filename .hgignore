@@ -1,0 +1,9 @@
+# use glob syntax.
+syntax: glob
+*.pyc
+.idea*
+*.un~
+sandbox/
+# ignore settings files
+bells/settings/host*
+bells/settings/local*
