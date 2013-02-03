@@ -118,7 +118,7 @@ class MethodSet(models.Model):
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
 
     class Meta:
-        unique_together = ('notes', 'slug',
+        unique_together = ('notes',
                            'p_stage', 'p_lengthOfLead', 'p_numberOfHunts',
                            'p_huntBellPath', 'p_symmetry',)
         ordering = ('p_stage', 'notes',)
@@ -127,7 +127,7 @@ class MethodSet(models.Model):
         return unicode(self).encode('utf-8')
 
     def __unicode__(self):
-        return '{notes} ({nbells} bells)'.format(notes=self.notes, nbells=self.p_stage)
+        return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
         return reverse('methods:method_set', args=[self.slug,])
@@ -184,7 +184,7 @@ class Method(models.Model):
         return reverse('methods:single_method', args=[self.slug,])
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
+            return unicode(self).encode('utf-8')
 
     def __unicode__(self):
         return self.title

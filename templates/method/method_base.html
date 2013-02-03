@@ -31,14 +31,20 @@
             var detailTab = document.getElementById('nav-d');
             // This function will be our event handler:
             function blClick() {
-                blueLineTab.setAttribute('class', 'active')
+                blueLineTab.setAttribute('class', 'active');
+                singleLeadTab.setAttribute('class', '');
+                detailTab.setAttribute('class', '');
             }
             function slClick() {
                 alert('Draw a Single Lead!');
-                singleLeadTab.setAttribute('class', 'active')
+                singleLeadTab.setAttribute('class', 'active');
+                blueLineTab.setAttribute('class', '');
+                detailTab.setAttribute('class', '');
             }
             function dClick() {
-                detailTab.setAttribute('class', 'active')
+                detailTab.setAttribute('class', 'active');
+                blueLineTab.setAttribute('class', '');
+                singleLeadTab.setAttribute('class', '');
             }
             // This is the event-registration part:
             blueLineTab.onclick = blClick;

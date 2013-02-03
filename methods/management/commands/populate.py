@@ -19,6 +19,7 @@ def xmlns(tag):
     return "{%s}%s" % (schema, tag)
 
 def find_tag_text(element, tag):
+    if element is None: return ''
     text = getattr(element.find(xmlns(tag)), 'text', None)
     return str(text.encode("utf-8")) if text else ''
 
@@ -93,14 +94,16 @@ class Command(BaseCommand):
 
                     if fhbp is not None:
 
+                        location = fhbp.find(xmlns('location'))
+
                         perf = FirstHandbellPeal(
-                            building=find_tag_text(fhbp, 'building'),
-                            town=find_tag_text(fhbp, 'town'),
-                            county=find_tag_text(fhbp, 'county'),
-                            region=find_tag_text(fhbp, 'region'),
-                            country=find_tag_text(fhbp, 'country'),
-                            location=find_tag_text(fhbp, 'location'),
-                            address=find_tag_text(fhbp, 'address'),
+                            building=find_tag_text(location, 'building'),
+                            town=find_tag_text(location, 'town'),
+                            county=find_tag_text(location, 'county'),
+                            region=find_tag_text(location, 'region'),
+                            country=find_tag_text(location, 'country'),
+                            location=find_tag_text(location, 'location'),
+                            address=find_tag_text(location, 'address'),
                             date=find_tag_text(fhbp, 'date'))
 
                         perf.save()
@@ -110,14 +113,17 @@ class Command(BaseCommand):
                         self.logger.debug(u'Handbell Performance %s saved' % perf)
 
                     if ftbp is not None:
+
+                        location = ftbp.find(xmlns('location'))
+
                         perf = FirstTowerbellPeal(
-                            building=find_tag_text(ftbp, 'building'),
-                            town=find_tag_text(ftbp, 'town'),
-                            county=find_tag_text(ftbp, 'county'),
-                            region=find_tag_text(ftbp, 'region'),
-                            country=find_tag_text(ftbp, 'country'),
-                            location=find_tag_text(ftbp, 'location'),
-                            address=find_tag_text(ftbp, 'address'),
+                            building=find_tag_text(location, 'building'),
+                            town=find_tag_text(location, 'town'),
+                            county=find_tag_text(location, 'county'),
+                            region=find_tag_text(location, 'region'),
+                            country=find_tag_text(location, 'country'),
+                            location=find_tag_text(location, 'location'),
+                            address=find_tag_text(location, 'address'),
                             date=find_tag_text(ftbp, 'date'))
 
                         perf.save()

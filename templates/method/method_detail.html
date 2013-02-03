@@ -58,5 +58,58 @@
         {% endif %}
     </table>
 
+    {% if method.rw_reference or method.bn_reference or method.cb_reference or method.pmm_reference or method.tdmm_reference %}
+    <h2>References</h2>
+    <table class="table table-striped">
+        {% if method.rw_reference %}
+        <tr>
+            <td>Ringing World</td>
+            <td>{{ method.rw_reference }}</td>
+        </tr>
+        {% endif %}
+
+        {% if method.bn_reference %}
+            <tr>
+                <td>Bell News</td>
+                <td>{{ method.bn_reference }}</td>
+            </tr>
+        {% endif %}
+
+        {% if method.cb_reference %}
+            <tr>
+                <td>CB</td>
+                <td>{{ method.cb_reference }}</td>
+            </tr>
+        {% endif %}
+
+        {% if method.pmm_reference %}
+            <tr>
+                <td>PMM</td>
+                <td>{{ method.pmm_reference }}</td>
+            </tr>
+        {% endif %}
+
+        {% if method.tdmm_reference %}
+            <tr>
+                <td>TDMM</td>
+                <td>{{ method.tdmm_reference }}</td>
+            </tr>
+        {% endif %}
+    </table>
+    {% endif %}
+
+    {% if method.first_tb_peal %}
+        <h4>First Tower Bell Peal {{ method.first_tb_peal.date }}</h4>
+        <address>
+            <strong>{{ method.first_tb_peal.building }}</strong><br>
+            {{ method.first_tb_peal.town }}<br>
+            {{ method.first_tb_peal.county }}<br>
+        </address>
+    {% endif %}
+
+    {% if method.first_hb_peal %}
+        <h4>First Hand Bell Peal {{ method.first_hb_peal.date }}</h4>
+    {% endif %}
+
 
 {% endblock draw_method %}
