@@ -3,10 +3,7 @@
 {% block content %}
     <article>
         <h1>CCCBR Method Sets</h1>
-        <p>
-            <strong>Alpha Warning</strong> This is a very new and still being developed website -
-            expect things to move, things to (sometimes) be wrong, and things to get better soon!
-        </p>
+
         {% for method_set in method_sets %}
             <br /><a href="{{ method_set.get_absolute_url }}">{{ method_set.notes }}</a>
         {% endfor %}

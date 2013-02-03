@@ -40,7 +40,7 @@ def match_view(request, match):
         {'match':match, 'method':methods},
         context_instance=RequestContext(request))
 
-def order_list_view(request):
+def order_list_view(request, template='method/method_order_list.html'):
     logger.debug('order_list_view')
 
     max_nbells = MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max']
@@ -51,7 +51,7 @@ def order_list_view(request):
         count = Method.objects.filter(method_set__p_stage=i).count()
         orders.append([i, count])
 
-    return render_to_response('method/method_order_list.html',
+    return render_to_response(template,
                               {'orders': orders, },
                               context_instance=RequestContext(request))
 

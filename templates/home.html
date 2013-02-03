@@ -5,15 +5,21 @@
 {% block content %}
 <h1>Bellringing Methods</h1>
 
-    <p>Bell ringers sometimes need blue lines quickly, this site aims to provide just that.</p>
+    <p>
+        Bell ringers sometimes need blue lines quickly, this site aims to provide just that.
+    </p>
 
-    <p>Currently there are {{ count }} methods in this database.</p>
+    <p>
+        Currently there are {{ count }} methods on this site, with the method database provided courtesy of
+        the <a href="http://www.cccbr.org.uk/methods/">CCCBR methods committee</a>
+        and <a href="http://methods.org.uk/">Tony Smith</a>.
+    </p>
 
-    <h2>Methods for</h2>
-    {% for order in orders %}
-        <ul>
-            <li><a href="{{ order.get_absolute_url }}">{{ order }}</a></li>
-        </ul>
+    <h2>All Blue Line Methods</h2>
+    {% for nbells, count in orders %}
+        {% if count %}
+            <br /><a href="{% url 'methods:order' nbells %}">Methods for {{ nbells }} bells (<i>{{ count }}</i>)</a>
+        {% endif %}
     {% endfor %}
 
 {% endblock %}
