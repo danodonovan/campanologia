@@ -134,13 +134,11 @@ class Command(BaseCommand):
 
                 if references is not None:
 
-                    for reference in references:
-
-                        m.rw_reference = find_tag_text(reference, 'rwRef')
-                        m.bn_reference = find_tag_text(reference, 'bnRef')
-                        m.cb_reference = find_tag_text(reference, 'cbRef')
-                        m.pmm_reference = find_tag_text(reference, 'pmmRef')
-                        m.tdmm_reference = find_tag_text(reference, 'tdmmRef')
+                    m.rw_reference = find_tag_text(references, 'rwRef')
+                    m.bn_reference = find_tag_text(references, 'bnRef')
+                    m.cb_reference = find_tag_text(references, 'cbRef')
+                    m.pmm_reference = find_tag_text(references, 'pmmRef')
+                    m.tdmm_reference = find_tag_text(references, 'tdmmRef')
 
                     m.save()
 

@@ -99,17 +99,44 @@
     {% endif %}
 
     {% if method.first_tb_peal %}
-        <h4>First Tower Bell Peal {{ method.first_tb_peal.date }}</h4>
-        <address>
-            <strong>{{ method.first_tb_peal.building }}</strong><br>
-            {{ method.first_tb_peal.town }}<br>
-            {{ method.first_tb_peal.county }}<br>
-        </address>
+    <div class="row">
+        <div class="span6">
+            <h4>First Tower Bell Peal:</h4>
+            <p>{{ method.first_tb_peal.date|date:"l jS F, Y" }}</p>
+        </div>
+        <div class="span4">
+            {% if method.first_tb_peal.has_location %}
+            <h4>Recorded Location:</h4>
+            <address>
+                {% if method.first_tb_peal.building %}<strong>{{ method.first_tb_peal.building }}</strong><br>{% endif %}
+                {% if method.first_tb_peal.town %}<strong>{{ method.first_tb_peal.town }}</strong><br>{% endif %}
+                {% if method.first_tb_peal.address %}{{ method.first_tb_peal.address }}<br>{% endif %}
+                {% if method.first_tb_peal.county %}{{ method.first_tb_peal.county }}<br>{% endif %}
+                {% if method.first_tb_peal.region %}{{ method.first_tb_peal.region }}<br>{% endif %}
+                {% if method.first_tb_peal.country %}{{ method.first_tb_peal.country }}<br>{% endif %}
+            </address>
+            {% endif %}
+        </div>
+    </div>
     {% endif %}
 
     {% if method.first_hb_peal %}
-        <h4>First Hand Bell Peal {{ method.first_hb_peal.date }}</h4>
+        <div class="row">
+        <div class="span6">
+            <h4>First Hand Bell Peal:</h4>
+            <p>{{ method.first_hb_peal.date|date:"l jS F, Y" }}</p>
+        </div>
+        <div class="span4">
+        {% if method.first_hb_peal.has_location %}
+        <h4>Recorded Location:</h4>
+        <address>
+            {% if method.first_hb_peal.building %}<strong>{{ method.first_hb_peal.building }}</strong><br>{% endif %}
+            {% if method.first_hb_peal.town %}<strong>{{ method.first_hb_peal.town }}</strong><br>{% endif %}
+            {% if method.first_hb_peal.address %}{{ method.first_hb_peal.address }}<br>{% endif %}
+            {% if method.first_hb_peal.county %}{{ method.first_hb_peal.county }}<br>{% endif %}
+            {% if method.first_hb_peal.region %}{{ method.first_hb_peal.region }}<br>{% endif %}
+            {% if method.first_hb_peal.country %}{{ method.first_hb_peal.country }}<br>{% endif %}
+        </address>
+        {% endif %}
     {% endif %}
-
-
 {% endblock draw_method %}
