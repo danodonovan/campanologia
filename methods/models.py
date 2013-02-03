@@ -1,4 +1,5 @@
 import logging
+import hashlib
 
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -40,20 +41,17 @@ def sanitise_cccbr_notation(raw_notation):
     if len(nr) == 1:
         # if we're dealing with original
         if nr[0] == '-':
-            n.append('X')
-            n.append('1')
+            n.extend(['X', '1'])
             return n, lh
 
         # if we're dealing with original odd
         if nr[0] in ['3', '5', '7', '9', 'E', 'A', 'C']:
-            n.append('X')
-            n.append('1')
+            n.extend(['X', '1'])
             return n, lh
 
         # if we're dealing with Cheeky Little Place
         elif nr[0] == '1':
-            n.append('14')
-            n.append('12')
+            n.extend(['14', '12'])
             return n, lh
 
     while i < len(nr):
@@ -96,11 +94,9 @@ class MethodSet(models.Model):
     p_numberOfHunts = models.IntegerField('properties->numberOfHunts')
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
+    uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
 
     class Meta:
-        unique_together = ('notes',
-                           'p_stage', 'p_lengthOfLead', 'p_numberOfHunts',
-                           'p_huntBellPath', 'p_symmetry',)
         ordering = ('p_stage', 'notes',)
 
     def __str__(self):
@@ -110,10 +106,17 @@ class MethodSet(models.Model):
         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
-        return reverse('methods:method_set', args=[self.slug, ])
+        return reverse('methods:method_set', kwargs={'slug': self.slug, 'unique_hash': self.get_unique_hash()})
+
+    def get_unique_hash(self):
+        class_vals = [self.notes, self.p_stage, self.p_lengthOfLead,
+                      self.p_numberOfHunts, self.p_huntBellPath, self.p_symmetry]
+        ustring = ''.join(['%s' % a for a in class_vals])
+        return '%s' % hashlib.sha224(ustring).hexdigest()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.notes)
+        self.uniq_hash = self.get_unique_hash()
         super(MethodSet, self).save(*args, **kwargs)
 
 

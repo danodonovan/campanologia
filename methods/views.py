@@ -83,10 +83,10 @@ def order_view(request, order):
         {'order': order, 'methods': methods},
         context_instance=RequestContext(request))
 
-def method_set_view(request, slug):
+def method_set_view(request, slug=None, unique_hash=None):
     logger.debug('method_set_view <method_set> %slug' % slug)
 
-    method_set = MethodSet.objects.get(slug=slug)
+    method_set = MethodSet.objects.get(slug=slug, unique_hash=unique_hash)
     methods = Method.objects.filter(method_set__slug=slug)
 
     return render_to_response('method/method_set_list.html',
