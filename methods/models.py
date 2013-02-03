@@ -23,7 +23,7 @@ def sanitise_cccbr_notation(raw_notation):
 
         # we've got a screwy odd bell method
         elif len(rns[0]) < len(rns[-1]):
-            nr, lh = rns
+            lh, nr = rns
 
     elif raw_notation.count(',') == 0:
         nr, lh = raw_notation, ''
