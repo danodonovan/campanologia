@@ -4,25 +4,8 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
-from course import Course
-
 logger = logging.getLogger('django_debug')
 
-ORDER_CHOICES = (
-    ( 4, 'Minimus'),
-    ( 5, 'Doubles'),
-    ( 6, 'Minor'),
-    ( 7, 'Triples'),
-    ( 8, 'Major'),
-    ( 9, 'Caters'),
-    (10, 'Royal'),
-    (11, 'Cinques'),
-    (12, 'Maximus'),
-    (13, 'Sextuples'),
-    (14, 'Fourteen'),
-    (15, 'Septuples'),
-    (16, 'Sixteen'),
-)
 
 def sanitise_cccbr_notation(raw_notation):
     """
@@ -32,7 +15,6 @@ def sanitise_cccbr_notation(raw_notation):
 
     # check for lead head
     if raw_notation.count(',') == 1:
-
         rns = raw_notation.split(',')
 
         # we've got a symmetric method
@@ -56,7 +38,6 @@ def sanitise_cccbr_notation(raw_notation):
 
     # there are edge case problems for Orignal N and Cheeky Little Place Minimus
     if len(nr) == 1:
-
         # if we're dealing with original
         if nr[0] == '-':
             n.append('X')
@@ -76,7 +57,6 @@ def sanitise_cccbr_notation(raw_notation):
             return n, lh
 
     while i < len(nr):
-
         if n_t_reset:
             n_t = []
 
@@ -130,7 +110,7 @@ class MethodSet(models.Model):
         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
-        return reverse('methods:method_set', args=[self.slug,])
+        return reverse('methods:method_set', args=[self.slug, ])
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.notes)
@@ -162,11 +142,11 @@ class Method(models.Model):
     # have own children in xml
     falseness_groups = models.CharField('fchGroups', max_length=31)
 
-    rw_reference = models.CharField('"Ringing World" reference', max_length=31)
-    bn_reference = models.CharField('"The Bell News" reference', max_length=31)
-    cb_reference = models.CharField('"Church Bells" reference', max_length=31)
-    pmm_reference = models.CharField('Numerical index in the Plain Minor Methods collection', max_length=31)
-    tdmm_reference = models.CharField('Numerical index in the Treble Dodging Minor Methods collection', max_length=31)
+    rw_reference = models.CharField('"Ringing World" reference', max_length=63)
+    bn_reference = models.CharField('"The Bell News" reference', max_length=63)
+    cb_reference = models.CharField('"Church Bells" reference', max_length=63)
+    pmm_reference = models.CharField('Numerical index in the Plain Minor Methods collection', max_length=63)
+    tdmm_reference = models.CharField('Numerical index in the Treble Dodging Minor Methods collection', max_length=63)
 
     # performances
     first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='first hand bell peak', null=True)
@@ -181,10 +161,10 @@ class Method(models.Model):
         super(Method, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('methods:single_method', args=[self.slug,])
+        return reverse('methods:single_method', args=[self.slug, ])
 
     def __str__(self):
-            return unicode(self).encode('utf-8')
+        return unicode(self).encode('utf-8')
 
     def __unicode__(self):
         return self.title
@@ -203,11 +183,22 @@ class Performance(models.Model):
     address = models.CharField('address', max_length=31)
     location = models.CharField('address', max_length=31)
 
+    has_location = models.BooleanField('has_location', default=False)
+
     class Meta:
         abstract = True
 
+    def save(self, *args, **kwargs):
+        for f in self._meta.fields:
+            if not isinstance(f, models.DateField) and getattr(self, f.attname):
+                self.has_location = True
+
+        super(Performance, self).save(*args, **kwargs)
+
+
 class FirstHandbellPeal(Performance):
     pass
+
 
 class FirstTowerbellPeal(Performance):
     pass
