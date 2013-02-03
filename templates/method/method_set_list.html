@@ -3,10 +3,7 @@
 {% block content %}
     <article>
         <h1><a href="{{ method_set.get_absolute_url }}">{{ method_set.notes }}</a></h1>
-        <p>
-            <strong>Alpha Warning</strong> This is a very new and still being developed website -
-            expect things to move, things to (sometimes) be wrong, and things to get better soon!
-        </p>
+
         {% for method in methods %}
             <br /><a href="{{ method.get_absolute_url }}">{{ method.title }}</a>
         {% endfor %}
