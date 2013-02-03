@@ -2,9 +2,9 @@ import logging
 import random
 
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
-from django.template  import RequestContext
+from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.views.generic import DetailView
+from django.db.models import Max, Min
 
 from .models import Method, MethodSet, FirstTowerbellPeal, FirstHandbellPeal
 
@@ -40,6 +40,21 @@ def match_view(request, match):
         {'match':match, 'method':methods},
         context_instance=RequestContext(request))
 
+def order_list_view(request):
+    logger.debug('order_list_view')
+
+    max_nbells = MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max']
+    min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min']
+
+    orders = []
+    for i in range(min_nbells, max_nbells+1):
+        count = Method.objects.filter(method_set__p_stage=i).count()
+        orders.append([i, count])
+
+    return render_to_response('method/method_order_list.html',
+                              {'orders': orders, },
+                              context_instance=RequestContext(request))
+
 def random_view(request, order=None):
     logger.debug('random_view <order> %s' % order)
 
@@ -61,13 +76,11 @@ def random_view(request, order=None):
 
 def order_view(request, order):
     logger.debug('order_view <order> %s' % order)
-    # methods = get_list_or_404(MethodSet, p_stage=order)
-    # order = MethodSet.objects.filter(p_stage=order)
-    # Method.objects.filter(method_set__id=ms[0].id)
+
     methods = Method.objects.filter(method_set__p_stage=order)
 
     return render_to_response('method/method_list.html',
-        {'order':order, 'methods':methods},
+        {'order': order, 'methods': methods},
         context_instance=RequestContext(request))
 
 def method_set_view(request, slug):

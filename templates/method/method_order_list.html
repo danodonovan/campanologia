@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}All Methods{% endblock title %}
+{% block content %}
+    <article>
+        <h1>All Methods in the CCCBR method archive</h1>
+        <p>
+            <strong>Alpha Warning</strong> This is a very new and still being developed website -
+            expect things to move, things to (sometimes) be wrong, and things to get better soon!
+        </p>
+        {% for nbells, count in orders %}
+            {% if count %}
+            <br /><a href="{% url 'methods:order' nbells %}">Methods for {{ nbells }} bells (<i>{{ count }}</i>)</a>
+            {% endif %}
+        {% endfor %}
+    </article>
+{% endblock content %}
