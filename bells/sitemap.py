@@ -38,8 +38,8 @@ class BaseSitemap(Sitemap):
     def location(self, obj):
         return obj.get_absolute_url()
 
-    def lastmod(self, obj):
-        return MethodSet.objects.latest().updated
+    # def lastmod(self, obj):
+    #     return MethodSet.objects.latest().updated
 
 class MethodSitemap(BaseSitemap):
     changefreq = "monthly"
