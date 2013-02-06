@@ -32,6 +32,9 @@
     </script>
 
     {% block js %}{% endblock %}
+
+    {% block bell_js %}{% endblock bell_js %}
+
 </head>
 
 <body>
@@ -47,7 +50,7 @@
                 <a class="brand" href="{% url 'home' %}">Bellringing Methods</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="{% url 'methods:random' %}">Random Method</a></li>
+                        <li class="active"><a href="{# {% url 'methods:random' %} #}">Random Method</a></li>
                         <li><a href="{% url 'about' %}">About</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->

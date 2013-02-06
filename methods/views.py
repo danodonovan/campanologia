@@ -1,36 +1,33 @@
 import logging
 import random
 
-from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
+from django.core.cache import cache
+from django.shortcuts import render_to_response, get_list_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.db.models import Max, Min
+from django.views.generic import DetailView
 
-from .models import Method, MethodSet, FirstTowerbellPeal, FirstHandbellPeal
+from .models import Method, MethodSet
 
 logger = logging.getLogger('django_debug')
 
-def method_view(request, slug):
-    logger.debug('method_view <slug> %s' % slug)
-    method = get_object_or_404(Method, slug__iexact=slug)
 
-    nbells = method.method_set.p_stage
-    nchanges = (method.method_set.p_stage - method.method_set.p_numberOfHunts) * method.method_set.p_lengthOfLead
-    notation = '%sLH%s' % (method.notation, method.leadHead)
+class MethodView(DetailView):
+    model = Method
 
-    javascript = render_to_string('js/blueline.js',
-                                  {'method': method, 'nbells': nbells, 'nchanges': nchanges, 'notation': notation})
 
-    return render_to_response('method/method.html',
-        {'method': method, 'js_blueline':javascript},
-        context_instance=RequestContext(request))
+class MethodInfoView(MethodView):
+    template_name = 'methods/method_info.html'
 
-def details_view(request, slug):
-    logger.debug('method_view <slug> %s' % slug)
-    method = get_object_or_404(Method, slug__iexact=slug)
 
-    return render_to_response('method/method_detail.html', {'method': method},
-                              context_instance=RequestContext(request))
+class RandomMethodView(MethodView):
+
+    def get_object(self, queryset=None):
+        count = cache.get('count') or cache.set('count', self.get_queryset().count()) or cache.get('count')
+        random_index = random.randint(0, count - 1)
+        return Method.objects.get(pk=random_index)
+
 
 def match_view(request, match):
     logger.debug('match_view <match> %s' % match)

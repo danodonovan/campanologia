@@ -1,4 +1,5 @@
 import logging
+# import random
 import hashlib
 
 from django.db import models
@@ -95,10 +96,14 @@ class MethodSet(models.Model):
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
     uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
-
     class Meta:
         ordering = ('p_stage', 'notes',)
 
+    # convenience
+    def get_nchanges(self):
+        return (self.p_stage - self.p_numberOfHunts) * self.p_lengthOfLead
+
+    # django functions
     def __str__(self):
         return unicode(self).encode('utf-8')
 
@@ -157,6 +162,16 @@ class Method(models.Model):
 
     class Meta:
         ordering = ('title',)
+
+    # convenience
+    def get_js_notation(self):
+        return ''.join(self.notation)
+
+    # django functions
+    # def random(self):
+    #     count = self.aggregate(count=Method('id'))['count']
+    #     random_index = random.randint(0, count - 1)
+    #     return self.all()[random_index]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
