@@ -22,7 +22,11 @@ class MethodInfoView(MethodView):
 
 
 class RandomMethodView(MethodView):
-
+    """
+    RandomMethodView
+        inherits from MethodView, but returns random Method from DB
+        trying to efficiently choose Method using caching
+    """
     def get_object(self, queryset=None):
         count = cache.get('count') or cache.set('count', self.get_queryset().count()) or cache.get('count')
         random_index = random.randint(0, count - 1)
@@ -52,24 +56,6 @@ def order_list_view(request, template='method/method_order_list.html'):
                               {'orders': orders, },
                               context_instance=RequestContext(request))
 
-def random_view(request, order=None):
-    logger.debug('random_view <order> %s' % order)
-
-    methods = Method.objects.all()
-
-    # sort_by('?') will kill the SQL performance
-    count = methods.count()
-    random_index = random.randint(0, count - 1)
-    method = methods[random_index]
-    nbells = method.method_set.p_stage
-    nchanges = (method.method_set.p_stage - method.method_set.p_numberOfHunts) * method.method_set.p_lengthOfLead
-
-    javascript = render_to_string('js/blueline.js',
-          {'method': method, 'nbells': nbells, 'nchanges': nchanges})
-
-    return render_to_response('method/method.html',
-        {'method': method, 'js_blueline':javascript},
-        context_instance=RequestContext(request))
 
 def order_view(request, order):
     logger.debug('order_view <order> %s' % order)

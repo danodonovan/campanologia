@@ -1,11 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 
-from .views import method_set_view, method_sets_view, order_view, order_list_view, random_view
+from .views import method_set_view, method_sets_view, order_view, order_list_view
 from .views import MethodView, MethodInfoView, RandomMethodView
 
 urlpatterns = patterns('methods.urls',
-    # url(r'random/$', random_view, name='random'),
-    url(r'random/(?P<order>.*)/$', random_view, name='random_with_order'),
     url(r'order/(?P<order>.*)/$', order_view, name='order'),
     url(r'order/$', order_list_view, name='order_list'),
     url(r'set/(?P<slug>.*)/$', method_set_view, name='method_set'),
