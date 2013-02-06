@@ -1,0 +1,14 @@
+{% extends "methods/base.html" %}
+{% block bell_js %}
+<script type="text/javascript">
+$(document).ready(function() {
+    var course = new Course({{  method.method_set.p_stage  }}, {{  method.method_set.get_nchanges  }}, {{  method.get_js_notation|safe  }}, "{{  method.leadHead  }}");
+    draw_blue_line(course);
+});
+</script>
+{% endblock bell_js %}
+{% block draw_method %}
+<h2>{{ method.raw_notation|default:'Default Place Notation' }}</h2>
+<div id='method_blocks'>
+</div>
+{% endblock draw_method %}
