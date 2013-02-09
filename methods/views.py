@@ -4,9 +4,8 @@ import random
 from django.core.cache import cache
 from django.shortcuts import render_to_response, get_list_or_404
 from django.template import RequestContext
-from django.template.loader import render_to_string
 from django.db.models import Max, Min
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from .models import Method, MethodSet
 
@@ -33,13 +32,18 @@ class RandomMethodView(MethodView):
         return Method.objects.get(pk=random_index)
 
 
-def match_view(request, match):
-    logger.debug('match_view <match> %s' % match)
-    methods = get_list_or_404(Method, name__icontains=match)
+class MethodListView(ListView):
+    model = Method
+    paginate_by = 25
 
-    return render_to_response('method/method_list.html',
-        {'match':match, 'method':methods},
-        context_instance=RequestContext(request))
+    def get_queryset(self):
+        if 'order' in self.kwargs:
+            return Method.objects.filter(method_set__p_stage=self.kwargs['order'])
+        return Method.objects.all()
+
+class MethodSetListView(ListView):
+    model = MethodSet
+
 
 def order_list_view(request, template='method/method_order_list.html'):
     logger.debug('order_list_view')
@@ -55,7 +59,6 @@ def order_list_view(request, template='method/method_order_list.html'):
     return render_to_response(template,
                               {'orders': orders, },
                               context_instance=RequestContext(request))
-
 
 def order_view(request, order):
     logger.debug('order_view <order> %s' % order)

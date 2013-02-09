@@ -56,42 +56,45 @@
                 <td><p>{{ method.falseness_groups }}</p></td>
             </tr>
         {% endif %}
-    </table>
 
     {% if method.rw_reference or method.bn_reference or method.cb_reference or method.pmm_reference or method.tdmm_reference %}
-    <h2>References</h2>
-    <table class="table table-striped">
+        <tr>
+            <td>
+        <h2>References</h2>
+            </td>
+        </tr>
+
         {% if method.rw_reference %}
         <tr>
-            <td>Ringing World</td>
+            <td>"Ringing World" reference</td>
             <td>{{ method.rw_reference }}</td>
         </tr>
         {% endif %}
 
         {% if method.bn_reference %}
             <tr>
-                <td>Bell News</td>
+                <td>"The Bell News" reference</td>
                 <td>{{ method.bn_reference }}</td>
             </tr>
         {% endif %}
 
         {% if method.cb_reference %}
             <tr>
-                <td>CB</td>
+                <td>"Church Bells" reference</td>
                 <td>{{ method.cb_reference }}</td>
             </tr>
         {% endif %}
 
         {% if method.pmm_reference %}
             <tr>
-                <td>PMM</td>
+                <td>Numerical index in the Plain Minor Methods collection</td>
                 <td>{{ method.pmm_reference }}</td>
             </tr>
         {% endif %}
 
         {% if method.tdmm_reference %}
             <tr>
-                <td>TDMM</td>
+                <td>Numerical index in the Treble Dodging Minor Methods collection</td>
                 <td>{{ method.tdmm_reference }}</td>
             </tr>
         {% endif %}
