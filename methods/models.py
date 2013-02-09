@@ -1,5 +1,4 @@
 import logging
-# import random
 import hashlib
 
 from django.db import models
@@ -96,6 +95,7 @@ class MethodSet(models.Model):
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
     uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
+
     class Meta:
         ordering = ('p_stage', 'notes',)
 
@@ -111,7 +111,7 @@ class MethodSet(models.Model):
         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
-        return reverse('methods:method_set', kwargs={'slug': self.slug, 'unique_hash': self.get_unique_hash()})
+        return reverse('methods:list_method_set', args=[self.slug,])
 
     def get_unique_hash(self):
         class_vals = [self.notes, self.p_stage, self.p_lengthOfLead,
@@ -166,12 +166,6 @@ class Method(models.Model):
     # convenience
     def get_js_notation(self):
         return ''.join(self.notation)
-
-    # django functions
-    # def random(self):
-    #     count = self.aggregate(count=Method('id'))['count']
-    #     random_index = random.randint(0, count - 1)
-    #     return self.all()[random_index]
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
