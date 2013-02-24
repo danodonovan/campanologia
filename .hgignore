@@ -7,3 +7,5 @@ sandbox/
 # ignore settings files
 bells/settings/host*
 bells/settings/local*
+# django created files
+static
