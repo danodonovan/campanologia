@@ -13,7 +13,7 @@
 	    {% for method in method_list %}
             <tr>
                 <td><a href="{{ method.get_absolute_url }}">{{ method.title }}</a></td>
-                <td>{{ method.method_set.notes }}</a></td>
+                <td>{{ method.method_set.notes }}</td>
             </tr>
 	    {% endfor %}
         </table>
