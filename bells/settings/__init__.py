@@ -68,7 +68,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'bootstrap-pagination',
-    # 'haystack',
+    'haystack',
     'methods',
 )
 
