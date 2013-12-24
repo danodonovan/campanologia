@@ -1,11 +1,9 @@
 {% extends "base.html" %}
-{% load bootstrap_pagination %}
+{% load pagination_tags %}
 {% block title %}{{ view.kwargs.order }} Bell Methods{% endblock title %}
 {% block content %}
 
-{% if is_paginated %}
-    {% bootstrap_paginate page_obj range=6 show_first_last="true" url_view_name="methods:order_paginated" url_extra_kwargs=view.kwargs.order %}
-{% endif %}
+    {% autopaginate page_obj %}
 
 	<article>
         <h1>{{ view.kwargs.order }} Bell Methods</h1>
