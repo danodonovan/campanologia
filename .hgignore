@@ -9,3 +9,5 @@ bells/settings/host*
 bells/settings/local*
 # django created files
 static
+# the virtualenv
+venv
