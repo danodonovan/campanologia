@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
+from optparse import make_option
 
 from django.core.management.base import BaseCommand
 
@@ -24,17 +25,27 @@ def find_tag_text(element, tag):
     return str(text.encode("utf-8")) if text else ''
 
 class Command(BaseCommand):
-    args = '<path to CCCBR xml file>'
+    args = '<path to CCCBR xml file> -v=<verbosity>'
     help = 'Populates the methods table from the CCCBR method XML'
 
     logging.basicConfig()
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
+    option_list = BaseCommand.option_list + (
+        make_option('--populate-verbose',
+            action='store_true',
+            dest='verbose',
+            default=False,
+            help='Verbose DB populate output'),
+        )
+
     def handle(self, file, *args, **options):
 
         if not os.path.isfile(file):
             raise IOError('file %s not found' % file)
+
+        verbosity = options['verbose']
 
         self.logger.debug('populating from file "%s"' % file)
 
@@ -55,7 +66,8 @@ class Command(BaseCommand):
                 p_symmetry=find_tag_text(properties, 'symmetry'))
             ms.save()
 
-            self.logger.debug(u'MethodSet %s saved' % ms)
+            if verbosity:
+                self.logger.debug(u'MethodSet %s saved' % ms)
 
             # pull out all the methods in this set
             methods = methodSet.findall(xmlns('method'))
@@ -75,7 +87,8 @@ class Command(BaseCommand):
                 m.save()
 
                 try: # can't be bothered to fix for Sméagol
-                    self.logger.debug(u'Method {method} saved'.format(method=m.title))
+                    if verbosity:
+                        self.logger.debug(u'Method {method} saved'.format(method=m.title))
                 except UnicodeEncodeError:
                     print 'Unicode{De,En}codeError - probably "Sméagol"'
                     pass
@@ -110,7 +123,8 @@ class Command(BaseCommand):
                         m.first_hb_peal = perf
                         m.save()
 
-                        self.logger.debug(u'Handbell Performance %s saved' % perf)
+                        if verbosity:
+                            self.logger.debug(u'Handbell Performance %s saved' % perf)
 
                     if ftbp is not None:
 
@@ -130,7 +144,8 @@ class Command(BaseCommand):
                         m.first_tb_peal = perf
                         m.save()
 
-                        self.logger.debug(u'Towerbell Performance %s saved' % perf)
+                        if verbosity:
+                            self.logger.debug(u'Towerbell Performance %s saved' % perf)
 
                 if references is not None:
 
