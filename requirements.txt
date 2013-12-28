@@ -1,11 +1,10 @@
 Django==1.6.1
-Whoosh==2.5.6
 argparse==1.2.1
 dj-database-url==0.2.2
 dj-static==0.0.5
 django-debug-toolbar==1.0
-django-pagination-bootstrap==1.0.5
 django-secure==1.0
+django-storages==1.1.8
 django-toolbelt==0.0.1
 gunicorn==18.0
 psycopg2==2.5.1
