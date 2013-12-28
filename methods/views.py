@@ -64,6 +64,8 @@ def order_list_view(request, template='method/method_order_list.html'):
         count = Method.objects.filter(method_set__p_stage=i).count()
         orders.append([i, count])
 
+    sum_count = sum([o[1] for o in orders])
+
     return render_to_response(template,
-                              {'orders': orders, },
+                              {'orders': orders, 'count': sum_count },
                               context_instance=RequestContext(request))
