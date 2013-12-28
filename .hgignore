@@ -5,6 +5,8 @@ syntax: glob
 *.un~
 *.swp
 sandbox/
+# ignore bootstrap unused files
+bells/static_files/bootstrap
 # ignore settings files
 bells/settings/host*
 bells/settings/local*
