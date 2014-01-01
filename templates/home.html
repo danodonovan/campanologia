@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}Blue Line Method Generator{% endblock %}
 
@@ -10,7 +11,7 @@
     </p>
 
     <p>
-        Currently there are {{ count }} methods on this site, with the method database provided courtesy of
+        Currently there are {{ count | intcomma }} methods on this site, with the method database provided courtesy of
         the <a href="http://www.cccbr.org.uk/methods/">CCCBR methods committee</a>
         and <a href="http://methods.org.uk/">Tony Smith</a>.
     </p>
