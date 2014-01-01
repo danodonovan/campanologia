@@ -48,12 +48,9 @@ class Command(BaseCommand):
 
         for method_set_dict in method_set_dicts:
 
-            # # if model exists skip
-            # if not MethodSet.objects.filter(notes=method_set_dict['notes'],
-            #                                 p_stage=method_set_dict['p_stage']).exists():
-
             # create the MethodSet object first
             ms, _ = MethodSet.objects.get_or_create(
+                id=method_set_dict['methodset_id'],
                 notes=method_set_dict['notes'],
                 p_stage=method_set_dict['p_stage'],
                 p_lengthOfLead=method_set_dict['p_lengthOfLead'],
@@ -63,14 +60,9 @@ class Command(BaseCommand):
             )
             self.logger.debug(u'MethodSet %s saved' % ms)
 
-            # pull out all the methods in this set
-            # bit slow
-            ms_id = method_set_dict['methodset_id']
-            #
-            # print ms.id, method_set_dict['methodset_id']
-            # assert ms.id == method_set_dict['methodset_id']
+            assert ms.id == method_set_dict['methodset_id']
 
-            for method_dict in (item for item in method_dicts if item["methodset_id"] ==  ms.id):
+            for method_dict in (item for item in method_dicts if item["methodset_id"] == ms.id):
 
                 # if model exists skip
                 if not Method.objects.filter(id=method_dict['id']).exists():
@@ -96,7 +88,8 @@ class Command(BaseCommand):
                     m = Method.objects.get(id=method_dict['id'])
 
                 # first peals
-                for peal_tag, peal_obj in (('first_hb_peal', FirstHandbellPeal), ('first_tb_peal', FirstTowerbellPeal)):
+                for peal_tag, peal_obj in (('first_hb_peal', FirstHandbellPeal),
+                                           ('first_tb_peal', FirstTowerbellPeal)):
 
                     if peal_tag in method_dict:
 

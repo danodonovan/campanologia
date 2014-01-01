@@ -94,7 +94,7 @@ class MethodSet(models.Model):
     p_numberOfHunts = models.IntegerField('properties->numberOfHunts')
     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
     p_symmetry = models.CharField('properties->symmetry', max_length=31)
-    uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
+    # uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
 
     class Meta:
         ordering = ('p_stage', 'notes',)
@@ -121,7 +121,7 @@ class MethodSet(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.notes)
-        self.uniq_hash = self.get_unique_hash()
+        # self.uniq_hash = self.get_unique_hash()
         super(MethodSet, self).save(*args, **kwargs)
 
 
