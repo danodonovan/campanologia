@@ -66,10 +66,11 @@ class Command(BaseCommand):
             # pull out all the methods in this set
             # bit slow
             ms_id = method_set_dict['methodset_id']
+            #
+            # print ms.id, method_set_dict['methodset_id']
+            # assert ms.id == method_set_dict['methodset_id']
 
-            assert ms.id == method_set_dict['methodset_id']
-
-            for method_dict in (item for item in method_dicts if item["methodset_id"] == ms_id):
+            for method_dict in (item for item in method_dicts if item["methodset_id"] ==  ms.id):
 
                 # if model exists skip
                 if not Method.objects.filter(id=method_dict['id']).exists():
@@ -86,7 +87,9 @@ class Command(BaseCommand):
                         method_set=ms,
                     )
 
-                    self.logger.debug(u'Method {nbells} {method} saved'.format(nbells=ms.p_stage, method=m.title))
+                    self.logger.debug(u'Method {nbells} {method} saved'.format(
+                        nbells=ms.p_stage, method=m.title.decode("utf8"))
+                    )
 
                 else:
 
@@ -113,112 +116,21 @@ class Command(BaseCommand):
                         setattr(m, peal_tag, performance)
 
                 # literature references
-                m.rw_reference = method_dict.get('rw_reference', None)
-                m.bn_reference = method_dict.get('bn_reference', None)
-                m.cb_reference = method_dict.get('cb_reference', None)
-                m.pmm_reference = method_dict.get('pmm_reference', None)
-                m.tdmm_reference = method_dict.get('tdmm_reference', None)
-
-                m.save()
+                m.rw_reference = method_dict.get('rw_reference', '')
+                m.bn_reference = method_dict.get('bn_reference', '')
+                m.cb_reference = method_dict.get('cb_reference', '')
+                m.pmm_reference = method_dict.get('pmm_reference', '')
+                m.tdmm_reference = method_dict.get('tdmm_reference', '')
 
                 # performances = method_dict['performances']
                 # references = method_dict['references']
                 # falseness = method_dict['falseness']
 
-                # # create performance (if any) and update method
-                # if performances is not None:
-                #     fhbp = performances.find(xmlns('firstHandbellPeal'))
-                #     ftbp = performances.find(xmlns('firstTowerbellPeal'))
-                #
-                #     if fhbp is not None:
-                #
-                #         location = fhbp.find(xmlns('location'))
-                #
-                #         perf = FirstHandbellPeal(
-                #             building=find_tag_text(location, 'building'),
-                #             town=find_tag_text(location, 'town'),
-                #             county=find_tag_text(location, 'county'),
-                #             region=find_tag_text(location, 'region'),
-                #             country=find_tag_text(location, 'country'),
-                #             location=find_tag_text(location, 'location'),
-                #             address=find_tag_text(location, 'address'),
-                #             date=find_tag_text(fhbp, 'date'))
-                #
-                #         perf.save()
-                #
-                #         perf_dict = {
-                #             'building': find_tag_text(location, 'building'),
-                #             'town': find_tag_text(location, 'town'),
-                #             'county': find_tag_text(location, 'county'),
-                #             'region': find_tag_text(location, 'region'),
-                #             'country': find_tag_text(location, 'country'),
-                #             'location': find_tag_text(location, 'location'),
-                #             'address': find_tag_text(location, 'address'),
-                #             'date': find_tag_text(fhbp, 'date')
-                #         }
-                #
-                #         if 'first_hb_peal' not in method_dict:
-                #             method_dict['first_hb_peal'] = perf_dict
-                #
-                #         m.first_hb_peal = perf
-                #         m.save()
-                #
-                #         if verbosity:
-                #             self.logger.debug(u'Handbell Performance %s saved' % perf)
-                #
-                #     if ftbp is not None:
-                #
-                #         location = ftbp.find(xmlns('location'))
-                #
-                #         perf = FirstTowerbellPeal(
-                #             building=find_tag_text(location, 'building'),
-                #             town=find_tag_text(location, 'town'),
-                #             county=find_tag_text(location, 'county'),
-                #             region=find_tag_text(location, 'region'),
-                #             country=find_tag_text(location, 'country'),
-                #             location=find_tag_text(location, 'location'),
-                #             address=find_tag_text(location, 'address'),
-                #             date=find_tag_text(ftbp, 'date'))
-                #
-                #         perf.save()
-                #
-                #         perf_dict = {
-                #             'building': find_tag_text(location, 'building'),
-                #             'town': find_tag_text(location, 'town'),
-                #             'county': find_tag_text(location, 'county'),
-                #             'region': find_tag_text(location, 'region'),
-                #             'country': find_tag_text(location, 'country'),
-                #             'location': find_tag_text(location, 'location'),
-                #             'address': find_tag_text(location, 'address'),
-                #             'date': find_tag_text(fhbp, 'date')
-                #         }
-                #
-                #         if 'first_tb_peal' not in method_dict:
-                #             method_dict['first_tb_peal'] = perf_dict
-                #
-                #         m.first_tb_peal = perf
-                #         m.save()
-                #
-                #         if verbosity:
-                #             self.logger.debug(u'Towerbell Performance %s saved' % perf)
-                #
-                # if references is not None:
-                #
-                #     m.rw_reference = find_tag_text(references, 'rwRef')
-                #     m.bn_reference = find_tag_text(references, 'bnRef')
-                #     m.cb_reference = find_tag_text(references, 'cbRef')
-                #     m.pmm_reference = find_tag_text(references, 'pmmRef')
-                #     m.tdmm_reference = find_tag_text(references, 'tdmmRef')
-                #     m.save()
-                #
-                #     method_dict['rw_reference'] = find_tag_text(references, 'rwRef')
-                #     method_dict['bn_reference'] = find_tag_text(references, 'bnRef')
-                #     method_dict['cb_reference'] = find_tag_text(references, 'cbRef')
-                #     method_dict['pmm_reference'] = find_tag_text(references, 'pmmRef')
-                #     method_dict['tdmm_reference'] = find_tag_text(references, 'tdmmRef')
-                #
                 # if falseness is not None:
                 #     for fs in falseness:
                 #         method_dict['falseness_groups'] = find_tag_text(fs, 'fchGroups')
                 #         m.falseness_groups = find_tag_text(fs, 'fchGroups')
                 #     m.save()
+
+                m.save()
+
