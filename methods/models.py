@@ -157,8 +157,8 @@ class Method(models.Model):
     tdmm_reference = models.CharField('Numerical index in the Treble Dodging Minor Methods collection', max_length=63)
 
     # performances
-    first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='first hand bell peak', null=True)
-    first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
+    first_hb_peal = models.ForeignKey('FirstHandbellPeal', related_name='first hand bell peak', null=True)
+    first_tb_peal = models.ForeignKey('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
 
     class Meta:
         ordering = ('title',)
@@ -187,7 +187,7 @@ class Performance(models.Model):
     Performance - not well sanitised
     """
     date = models.DateField('date')
-    building = models.CharField('town', max_length=31)
+    building = models.CharField('building', max_length=31)
     town = models.CharField('town', max_length=31)
     county = models.CharField('county', max_length=31)
     region = models.CharField('region', max_length=31)
