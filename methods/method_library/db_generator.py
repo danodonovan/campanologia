@@ -129,8 +129,9 @@ def build_method_db(file, logger=None, limit=None):
                 method_dict = update_method_dict(method_dict, references)
 
             if falseness is not None:
-                for fs in falseness:
-                    method_dict['falseness_groups'] = find_tag_text(fs, 'fchGroups')
+                method_dict['falseness_groups'] = ', '.join(
+                    [find_tag_text(fs, 'fchGroups') for fs in falseness]
+                )
 
             method_dicts.append(method_dict)
             method_set_dict['methods'].append(method_dict)
