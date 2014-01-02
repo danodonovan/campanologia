@@ -79,50 +79,8 @@ def sanitise_cccbr_notation(raw_notation):
     if n_t:
         n.append(''.join(n_t))
 
-    return '%s' % n.__repr__(), lh
-
-
-# class MethodSet(models.Model):
-#     """
-#     MethodSet
-#     """
-#
-#     notes = models.CharField('notes', max_length=255)
-#     slug = models.SlugField('slug', max_length=255)
-#     p_stage = models.IntegerField('properties->stage')
-#     p_lengthOfLead = models.IntegerField('properties->lengthOfLead')
-#     p_numberOfHunts = models.IntegerField('properties->numberOfHunts')
-#     p_huntBellPath = models.CharField('properties->huntBellPath', max_length=511)
-#     p_symmetry = models.CharField('properties->symmetry', max_length=31)
-#     # uniq_hash = models.CharField('uniq_hash', max_length=57, unique=True)
-#
-#     class Meta:
-#         ordering = ('p_stage', 'notes',)
-#
-#     # convenience
-#     def get_nchanges(self):
-#         return (self.p_stage - self.p_numberOfHunts) * self.p_lengthOfLead
-#
-#     # django functions
-#     def __str__(self):
-#         return unicode(self).encode('utf-8')
-#
-#     def __unicode__(self):
-#         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
-#
-#     def get_absolute_url(self):
-#         return reverse('methods:list_method_set', args=[self.slug,])
-#
-#     def get_unique_hash(self):
-#         class_vals = [self.notes, self.p_stage, self.p_lengthOfLead,
-#                       self.p_numberOfHunts, self.p_huntBellPath, self.p_symmetry]
-#         ustring = ''.join(['%s' % a for a in class_vals])
-#         return '%s' % hashlib.sha224(ustring).hexdigest()
-#
-#     def save(self, *args, **kwargs):
-#         self.slug = slugify(self.notes)
-#         # self.uniq_hash = self.get_unique_hash()
-#         super(MethodSet, self).save(*args, **kwargs)
+    #return '%s' % n.__repr__(), lh
+    return '%s' % n.__str__(), lh
 
 
 class Method(models.Model):
@@ -131,7 +89,6 @@ class Method(models.Model):
     """
 
     id = models.IntegerField('id', primary_key=True)
-    # method_set = models.ForeignKey(MethodSet)
 
     title = models.CharField('title', max_length=255, unique=True)
     slug = models.SlugField('slug', max_length=255)
