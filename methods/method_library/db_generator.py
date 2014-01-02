@@ -56,10 +56,11 @@ def create_method_set_dict(methodset, methodset_id):
     return method_set_dict
 
 
-def create_method_dict(method, methodset_id):
+def create_method_dict(method, methodset_id, nbells):
     method_dict = {
         'id': int(method.attrib['id'].split('id')[-1]),
         'methodset_id': methodset_id,
+        'nbells': nbells,
         'name': find_tag_text(method, 'name'),
         'classification': find_tag_text(method, 'classification'),
         'raw_notation': find_tag_text(method, 'notation'),
@@ -94,7 +95,7 @@ def build_method_db(file, logger=None, limit=None):
         for method in methods:
 
             # create method linking back to method set
-            method_dict = create_method_dict(method, ms_id)
+            method_dict = create_method_dict(method, ms_id, method_set_dict['p_stage'])
 
             if logger is not None:
                 logger.debug('method %s' % method_dict['name'])

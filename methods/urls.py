@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from .views import MethodView, MethodInfoView, RandomMethodView, MethodListView, MethodSetListView
+from .views import MethodView, MethodInfoView, RandomMethodView, MethodListView #, MethodSetListView
 
 
 urlpatterns = patterns('methods.urls',
@@ -15,11 +15,11 @@ urlpatterns = patterns('methods.urls',
         view=MethodListView.as_view(),
         name='order_paginated'
     ),
-    url(
-        regex=r'sets/',
-        view=MethodSetListView.as_view(),
-        name='list_method_set',
-    ),
+    # url(
+    #     regex=r'sets/',
+    #     view=MethodSetListView.as_view(),
+    #     name='list_method_set',
+    # ),
     url(
         regex=r'random/',
         view=RandomMethodView.as_view(),

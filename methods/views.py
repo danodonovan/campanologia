@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.db.models import Max, Min
 from django.views.generic import DetailView, ListView
 
-from .models import Method, MethodSet
+from .models import Method #, MethodSet
 
 logger = logging.getLogger('django_debug')
 
@@ -45,23 +45,26 @@ class MethodListView(ListView):
         Only get Methods for a given number of bells (order).
         """
         if 'order' in self.kwargs:
-            return Method.objects.filter(method_set__p_stage=self.kwargs['order'])
+            return Method.objects.filter(ms_p_stage=self.kwargs['order'])
         return Method.objects.all()
 
-
-class MethodSetListView(ListView):
-    model = MethodSet
-
+# class MethodSetListView(ListView):
+#     model = MethodSet
+#
+# class MethodOrderListView(ListView):
+#     model = Method
 
 def order_list_view(request, template='method/method_order_list.html'):
     logger.debug('order_list_view')
 
-    max_nbells = MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max']
-    min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min']
+    max_nbells = Method.objects.all().aggregate(Max('ms_p_stage'))['ms_p_stage__max']
+    min_nbells = Method.objects.all().aggregate(Min('ms_p_stage'))['ms_p_stage__min']
+    # max_nbells = MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max']
+    # min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min']
 
     orders = []
     for i in range(min_nbells, max_nbells+1):
-        count = Method.objects.filter(method_set__p_stage=i).count()
+        count = Method.objects.filter(ms_p_stage=i).count()
         orders.append([i, count])
 
     sum_count = sum([o[1] for o in orders])
