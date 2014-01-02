@@ -1,2 +1,2 @@
 {{ object.title }}
-{{ object.method_set.notes }}
+{{ object.ms_notes }}
