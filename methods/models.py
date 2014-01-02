@@ -176,6 +176,10 @@ class Method(models.Model):
     def get_js_notation(self):
         return ''.join(self.notation)
 
+    # convenience
+    def get_nchanges(self):
+        return (self.ms_p_stage - self.ms_p_numberOfHunts) * self.ms_p_lengthOfLead
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         self.notation, self.leadHead = sanitise_cccbr_notation(self.raw_notation)

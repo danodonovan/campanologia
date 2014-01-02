@@ -2,7 +2,7 @@
 {% block bell_js %}
 <script type="text/javascript">
 $(document).ready(function() {
-    var course = new Course({{  method.method_set.p_stage  }}, {{  method.method_set.get_nchanges  }}, {{  method.get_js_notation|safe  }}, "{{  method.leadHead  }}");
+    var course = new Course({{  method.ms_p_stage  }}, {{  method.get_nchanges  }}, {{  method.get_js_notation|safe  }}, "{{  method.leadHead  }}");
     draw_blue_line(course);
 });
 </script>
