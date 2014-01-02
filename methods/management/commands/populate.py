@@ -6,7 +6,7 @@ from optparse import make_option
 
 from django.core.management.base import BaseCommand
 
-from methods.models import MethodSet, Method, FirstHandbellPeal, FirstTowerbellPeal
+from methods.models import Method, FirstHandbellPeal, FirstTowerbellPeal # MethodSet,
 from methods.method_library.db_generator import build_method_db, check_db
 
 
@@ -48,21 +48,22 @@ class Command(BaseCommand):
 
         for method_set_dict in method_set_dicts:
 
-            # create the MethodSet object first
-            ms, _ = MethodSet.objects.get_or_create(
-                id=method_set_dict['methodset_id'],
-                notes=method_set_dict['notes'],
-                p_stage=method_set_dict['p_stage'],
-                p_lengthOfLead=method_set_dict['p_lengthOfLead'],
-                p_numberOfHunts=method_set_dict['p_numberOfHunts'],
-                p_huntBellPath=method_set_dict['p_huntBellPath'],
-                p_symmetry=method_set_dict['p_symmetry'],
-            )
-            self.logger.debug(u'MethodSet %s saved' % ms)
+            # # create the MethodSet object first
+            # ms, _ = MethodSet.objects.get_or_create(
+            #     id=method_set_dict['methodset_id'],
+            #     notes=method_set_dict['notes'],
+            #     p_stage=method_set_dict['p_stage'],
+            #     p_lengthOfLead=method_set_dict['p_lengthOfLead'],
+            #     p_numberOfHunts=method_set_dict['p_numberOfHunts'],
+            #     p_huntBellPath=method_set_dict['p_huntBellPath'],
+            #     p_symmetry=method_set_dict['p_symmetry'],
+            # )
+            # self.logger.debug(u'MethodSet %s saved' % ms)
+            #
+            # assert ms.id == method_set_dict['methodset_id']
 
-            assert ms.id == method_set_dict['methodset_id']
-
-            for method_dict in (item for item in method_dicts if item["methodset_id"] == ms.id):
+            # for method_dict in (item for item in method_dicts if item["methodset_id"] == ms.id):
+            for method_dict in (item for item in method_dicts if item["nbells"] == method_set_dict['p_stage']):
 
                 # if model exists skip
                 if not Method.objects.filter(id=method_dict['id']).exists():
@@ -76,11 +77,17 @@ class Command(BaseCommand):
                         title=method_dict['title'],
                         leadHeadCode=method_dict['leadHeadCode'],
                         method_notes=method_dict['method_notes'],
-                        method_set=ms,
+                        # method_set=ms,
+                        ms_notes=method_set_dict['notes'],
+                        ms_p_stage=method_set_dict['p_stage'],
+                        ms_p_lengthOfLead=method_set_dict['p_lengthOfLead'],
+                        ms_p_numberOfHunts=method_set_dict['p_numberOfHunts'],
+                        ms_p_huntBellPath=method_set_dict['p_huntBellPath'],
+                        ms_p_symmetry=method_set_dict['p_symmetry'],
                     )
 
                     self.logger.debug(u'Method {nbells} {method} saved'.format(
-                        nbells=ms.p_stage, method=m.title.decode("utf8"))
+                        nbells=m.ms_p_stage, method=m.title.decode("utf8"))
                     )
 
                 else:
