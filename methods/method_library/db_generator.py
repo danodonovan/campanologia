@@ -85,6 +85,7 @@ def build_method_db(file, logger=None, limit=None):
     for ms_id, methodSet in enumerate(root.findall(xmlns('methodSet'))):
 
         method_set_dict = create_method_set_dict(methodSet, ms_id + 1)
+        method_set_dict['methods'] = []
 
         if logger is not None:
             logger.debug('method set %s' % method_set_dict['p_stage'])
@@ -132,6 +133,7 @@ def build_method_db(file, logger=None, limit=None):
                     method_dict['falseness_groups'] = find_tag_text(fs, 'fchGroups')
 
             method_dicts.append(method_dict)
+            method_set_dict['methods'].append(method_dict)
 
         method_set_dicts.append(method_set_dict)
 

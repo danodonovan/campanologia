@@ -63,7 +63,8 @@ class Command(BaseCommand):
             # assert ms.id == method_set_dict['methodset_id']
 
             # for method_dict in (item for item in method_dicts if item["methodset_id"] == ms.id):
-            for method_dict in (item for item in method_dicts if item["nbells"] == method_set_dict['p_stage']):
+            #for method_dict in (item for item in method_dicts if item["nbells"] == method_set_dict['p_stage']):
+            for method_dict in method_set_dict['methods']:
 
                 # if model exists skip
                 if not Method.objects.filter(id=method_dict['id']).exists():
