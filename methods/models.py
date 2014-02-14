@@ -79,8 +79,11 @@ def sanitise_cccbr_notation(raw_notation):
     if n_t:
         n.append(''.join(n_t))
 
-    #return '%s' % n.__repr__(), lh
-    return '%s' % n.__str__(), lh
+    nstring = "['"
+    nstring += "', '".join(n)
+    nstring += "',]"
+
+    return nstring, lh
 
 
 class Method(models.Model):
