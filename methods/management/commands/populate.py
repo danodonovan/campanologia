@@ -6,7 +6,9 @@ from optparse import make_option
 
 from django.core.management.base import BaseCommand
 
-from methods.models import Method, FirstHandbellPeal, FirstTowerbellPeal # MethodSet,
+from methods.models import Method, FirstHandbellPeal, FirstTowerbellPeal
+from methods.mongo_models import MongoMethod, MongoFirstHandbellPeal, MongoFirstTowerbellPeal
+
 from methods.method_library.db_generator import build_method_db, check_db
 
 
@@ -18,12 +20,19 @@ class Command(BaseCommand):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
+    #parser = argparse.ArgumentParser(description=help)
+
     option_list = BaseCommand.option_list + (
         make_option('--populate-verbose',
             action='store_true',
             dest='verbose',
             default=False,
             help='Verbose DB populate output'),
+        make_option('--mongodb',
+            action='store_true',
+            dest='verbose',
+            default=False,
+            help='Populate MongoDB'),
         )
 
     def handle(self, file, *args, **options):
@@ -33,6 +42,19 @@ class Command(BaseCommand):
 
         if options['verbose']:
             self.logger.setLevel(logging.INFO)
+
+        # print options
+        # self.use_mongo = options['mongodb']
+        self.use_mongo = False
+
+        if self.use_mongo:
+            self.Method = MongoMethod
+            self.FirstTowerbellPeal = MongoFirstTowerbellPeal
+            self.FirstHandbellPeal = MongoFirstHandbellPeal
+        else:
+            self.Method = Method
+            self.FirstTowerbellPeal = FirstTowerbellPeal
+            self.FirstHandbellPeal = FirstHandbellPeal
 
         self.populate_db_from_file(file)
 
@@ -48,29 +70,14 @@ class Command(BaseCommand):
 
         for method_set_dict in method_set_dicts:
 
-            # # create the MethodSet object first
-            # ms, _ = MethodSet.objects.get_or_create(
-            #     id=method_set_dict['methodset_id'],
-            #     notes=method_set_dict['notes'],
-            #     p_stage=method_set_dict['p_stage'],
-            #     p_lengthOfLead=method_set_dict['p_lengthOfLead'],
-            #     p_numberOfHunts=method_set_dict['p_numberOfHunts'],
-            #     p_huntBellPath=method_set_dict['p_huntBellPath'],
-            #     p_symmetry=method_set_dict['p_symmetry'],
-            # )
-            # self.logger.debug(u'MethodSet %s saved' % ms)
-            #
-            # assert ms.id == method_set_dict['methodset_id']
-
-            # for method_dict in (item for item in method_dicts if item["methodset_id"] == ms.id):
-            #for method_dict in (item for item in method_dicts if item["nbells"] == method_set_dict['p_stage']):
             for method_dict in method_set_dict['methods']:
 
                 # if model exists skip
-                if not Method.objects.filter(id=method_dict['id']).exists():
+                if not self.Method.objects.filter(id=method_dict['id']).exists():
+                # if len(self.Method.objects.filter(id=method_dict['id'])) == 0:
 
                     # create method linking back to method set
-                    m, _ = Method.objects.get_or_create(
+                    m, _ = self.Method.objects.get_or_create(
                         id=method_dict['id'],
                         name=method_dict['name'],
                         classification=method_dict['classification'],
@@ -85,19 +92,37 @@ class Command(BaseCommand):
                         ms_p_numberOfHunts=method_set_dict['p_numberOfHunts'],
                         ms_p_huntBellPath=method_set_dict['p_huntBellPath'],
                         ms_p_symmetry=method_set_dict['p_symmetry'],
+                        # literature references
+                        rw_reference=method_dict.get('rw_reference', ''),
+                        bn_reference=method_dict.get('bn_reference', ''),
+                        cb_reference=method_dict.get('cb_reference', ''),
+                        pmm_reference=method_dict.get('pmm_reference', ''),
+                        tdmm_reference=method_dict.get('tdmm_reference', ''),
+                        # falseness
+                        falseness_groups=method_dict.get('falseness_groups', ''),
                     )
 
-                    self.logger.debug(u'Method {nbells} {method} saved'.format(
-                        nbells=m.ms_p_stage, method=m.title.decode("utf8"))
-                    )
+                    try:
+                        self.logger.debug(u'Method {nbells} {method} saved'.format(
+                            nbells=m.ms_p_stage, method=m.title.decode("utf8"))
+                        )
+                    except UnicodeEncodeError:
+                        pass
 
                 else:
 
-                    m = Method.objects.get(id=method_dict['id'])
+                    m = self.Method.objects.get(id=method_dict['id'])
+
+                    try:
+                        self.logger.debug(u'Method {nbells} {method} retrieved'.format(
+                            nbells=m.ms_p_stage, method=m.title.decode("utf8"))
+                        )
+                    except UnicodeEncodeError:
+                        pass
 
                 # first peals
-                for peal_tag, peal_obj in (('first_hb_peal', FirstHandbellPeal),
-                                           ('first_tb_peal', FirstTowerbellPeal)):
+                for peal_tag, peal_obj in (('first_hb_peal', self.FirstHandbellPeal),
+                                           ('first_tb_peal', self.FirstTowerbellPeal)):
 
                     if peal_tag in method_dict:
 
@@ -115,23 +140,6 @@ class Command(BaseCommand):
                         )
 
                         setattr(m, peal_tag, performance)
-
-                # literature references
-                m.rw_reference = method_dict.get('rw_reference', '')
-                m.bn_reference = method_dict.get('bn_reference', '')
-                m.cb_reference = method_dict.get('cb_reference', '')
-                m.pmm_reference = method_dict.get('pmm_reference', '')
-                m.tdmm_reference = method_dict.get('tdmm_reference', '')
-
-                # performances = method_dict['performances']
-                # references = method_dict['references']
-                # falseness = method_dict['falseness']
-
-                # if falseness is not None:
-                #     for fs in falseness:
-                #         method_dict['falseness_groups'] = find_tag_text(fs, 'fchGroups')
-                #         m.falseness_groups = find_tag_text(fs, 'fchGroups')
-                #     m.save()
 
                 m.save()
 

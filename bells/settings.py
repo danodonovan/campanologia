@@ -17,7 +17,7 @@ DATABASES = {'default': dj_database_url.config(
     default="postgres://dj_user:dj_pass@localhost:5432/bells_dj"
 )}
 
-TIME_ZONE = 'Europe/London'
+IME_ZONE = 'Europe/London'
 
 LANGUAGE_CODE = 'en-GB'
 
@@ -187,3 +187,7 @@ LOGGING = {
         },
     }
 }
+
+
+# mongodb stuff
+MONGO_DBNAME = 'bells_mg'
