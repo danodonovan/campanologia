@@ -7,6 +7,7 @@ from django.contrib.sitemaps import Sitemap
 
 from methods.models import Method, MethodSet
 
+
 class StaticSitemap(Sitemap):
     priority = 0.5
 
@@ -31,6 +32,7 @@ class StaticSitemap(Sitemap):
     def changefreq(self, obj):
         return obj[1] if isinstance(obj, tuple) else "monthly"
 
+
 class BaseSitemap(Sitemap):
     priority = 0.5
     changefreq = "monthly"
@@ -41,11 +43,13 @@ class BaseSitemap(Sitemap):
     # def lastmod(self, obj):
     #     return MethodSet.objects.latest().updated
 
+
 class MethodSitemap(BaseSitemap):
     changefreq = "monthly"
 
     def items(self):
         return Method.objects.all()
+
 
 class MethodOrderCountSitemap(BaseSitemap):
     changefreq = "monthly"

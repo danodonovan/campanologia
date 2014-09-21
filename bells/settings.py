@@ -10,10 +10,9 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.herokuapp.com').split(':')
+ALLOWED_HOSTS = None
 
-import dj_database_url
-DATABASES = {'default': dj_database_url.config()}
+DATABASES = {}
 
 TIME_ZONE = 'Europe/London'
 
@@ -29,53 +28,25 @@ USE_TZ = False
 
 # While debugging, use the built-in server's static file serving mechanism.
 # In production, host all files on S3.
-if not DEBUG:
-    # Access information for the S3 bucket
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-    AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME
+# Absolute filesystem path to the directory
+# that will hold user-uploaded files.
+# Example: "/home/media/media.lawrence.com/media/"
+MEDIA_ROOT = ''
 
-    # Static files are stored in the bucket at /static
-    # and user-uploaded files are stored at /media
-    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
-    DEFAULT_S3_PATH = 'media'
-    STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
-    STATIC_S3_PATH = 'static'
-    AWS_S3_SECURE_URLS = False
-    AWS_QUERYSTRING_AUTH = False
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = ''
 
-    # Construct the paths to resources on S3 via
-    # the bucket name and the necessary paths
-    MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
-    MEDIA_URL = '//%s.s3.amazonaws.com/%s/' % \
-            (AWS_STORAGE_BUCKET_NAME, DEFAULT_S3_PATH)
-    STATIC_ROOT = '/%s/' % STATIC_S3_PATH
-    STATIC_URL = '//%s.s3.amazonaws.com/%s/' % \
-            (AWS_STORAGE_BUCKET_NAME, STATIC_S3_PATH)
-    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-else:
-    # Absolute filesystem path to the directory
-    # that will hold user-uploaded files.
-    # Example: "/home/media/media.lawrence.com/media/"
-    MEDIA_ROOT = ''
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = os.getcwd() + '/collected_static_files/'
 
-    # URL that handles the media served from MEDIA_ROOT. Make sure to use a
-    # trailing slash.
-    # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-    MEDIA_URL = ''
-
-    # Absolute path to the directory static files should be collected to.
-    # Don't put anything in this directory yourself; store your static files
-    # in apps' "static/" subdirectories and in STATICFILES_DIRS.
-    # Example: "/home/media/media.lawrence.com/static/"
-    STATIC_ROOT = os.getcwd() + '/collected_static_files/'
-
-    # URL prefix for static files.
-    # Example: "http://media.lawrence.com/static/"
-    STATIC_URL = '/static/'
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -90,7 +61,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -100,7 +70,6 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -110,7 +79,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    #'djangosecure.middleware.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -139,22 +107,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-    #'gunicorn',
-    #'raven.contrib.django',
-    #'djcelery',
-    #'djangosecure',
-    #'pagination_bootstrap',
     'methods',
 )
-
-# Security
-SECURE_SSL_REDIRECT = False
-SECURE_HSTS_SECONDS = 60 * 60  # 1 hour
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_FRAME_DENY = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
