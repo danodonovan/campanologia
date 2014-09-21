@@ -1,11 +1,11 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, absolute_import
 from django.test import TestCase
 from django.template.defaultfilters import slugify
 
-from method.models import Method
+from .models import Method
 
-# method = {
-#     'name' : 
-# }
 
 class MethodCourseInternalTest(TestCase):
 
