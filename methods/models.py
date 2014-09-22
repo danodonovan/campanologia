@@ -111,7 +111,7 @@ class MethodSet(models.Model):
         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
-        return reverse('methods:list_method_set', args=[self.slug,])
+        return reverse('methods:list_method_set', args=[self.slug, ])
 
     def get_unique_hash(self):
         class_vals = [self.notes, self.p_stage, self.p_lengthOfLead,

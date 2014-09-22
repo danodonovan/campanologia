@@ -24,8 +24,8 @@ AWS_QUERYSTRING_AUTH = False
 # the bucket name and the necessary paths
 MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
 MEDIA_URL = '//%s.s3.amazonaws.com/%s/' % \
-        (AWS_STORAGE_BUCKET_NAME, DEFAULT_S3_PATH)
+            (AWS_STORAGE_BUCKET_NAME, DEFAULT_S3_PATH)
 STATIC_ROOT = '/%s/' % STATIC_S3_PATH
 STATIC_URL = '//%s.s3.amazonaws.com/%s/' % \
-        (AWS_STORAGE_BUCKET_NAME, STATIC_S3_PATH)
+             (AWS_STORAGE_BUCKET_NAME, STATIC_S3_PATH)
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
