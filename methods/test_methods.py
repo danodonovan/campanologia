@@ -8,15 +8,12 @@ from .models import Method
 
 
 class MethodCourseInternalTest(TestCase):
-
     def test_little_bob(self):
-
         places = '-1-4LH2'
         calls = 'e'
 
         # for nbells in [6, 8, 10, 12, 14, 16]:
         for nbells in [6]:
-
             name = 'Little Bob %d' % nbells
             slug = slugify(name)
 
@@ -28,7 +25,6 @@ class MethodCourseInternalTest(TestCase):
 
 
     def test_125th_anniversary_bob_doubles(self):
-
         places = '34.1.2.3.5.23.5.1.5.23'
         calls = 'z'
         nbells = 5
@@ -42,7 +38,6 @@ class MethodCourseInternalTest(TestCase):
         self.assertTrue(c.n_lead_ends)
 
     def test_cambridge_surprise_maximus(self):
-
         places = '-3-4-25-36-47-58-69-70-8-9-0-ELH2'
         calls = 'b'
         nbells = 12
@@ -56,7 +51,6 @@ class MethodCourseInternalTest(TestCase):
         self.assertTrue(c.n_lead_ends)
 
     def test_kent_treble_bob_maximus(self):
-
         places = '34-34.1-2-1-2-1-2-1-2-1-2-1LH1'
         calls = 'mx'
         nbells = 12
@@ -70,7 +64,6 @@ class MethodCourseInternalTest(TestCase):
         self.assertTrue(c.n_lead_ends)
 
     def test_kent_treble_bob_fourteen(self):
-
         places = '34-34.1-2-1-2-1-2-1-2-1-2-1-2-1LH1'
         calls = 'mx'
         nbells = 14

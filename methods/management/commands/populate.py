@@ -16,13 +16,16 @@ except ImportError:
 
 schema = "http://www.cccbr.org.uk/methods/schemas/2007/05/methods"
 
+
 def xmlns(tag):
     return "{%s}%s" % (schema, tag)
+
 
 def find_tag_text(element, tag):
     if element is None: return ''
     text = getattr(element.find(xmlns(tag)), 'text', None)
     return str(text.encode("utf-8")) if text else ''
+
 
 class Command(BaseCommand):
     args = '<path to CCCBR xml file> -v=<verbosity>'
@@ -34,11 +37,11 @@ class Command(BaseCommand):
 
     option_list = BaseCommand.option_list + (
         make_option('--populate-verbose',
-            action='store_true',
-            dest='verbose',
-            default=False,
-            help='Verbose DB populate output'),
-        )
+                    action='store_true',
+                    dest='verbose',
+                    default=False,
+                    help='Verbose DB populate output'),
+    )
 
     def handle(self, file, *args, **options):
 
@@ -86,7 +89,7 @@ class Command(BaseCommand):
 
                 m.save()
 
-                try: # can't be bothered to fix for Sméagol
+                try:  # can't be bothered to fix for Sméagol
                     if verbosity:
                         self.logger.debug(u'Method {method} saved'.format(method=m.title))
                 except UnicodeEncodeError:
@@ -148,7 +151,6 @@ class Command(BaseCommand):
                             self.logger.debug(u'Towerbell Performance %s saved' % perf)
 
                 if references is not None:
-
                     m.rw_reference = find_tag_text(references, 'rwRef')
                     m.bn_reference = find_tag_text(references, 'bnRef')
                     m.cb_reference = find_tag_text(references, 'cbRef')

@@ -29,6 +29,7 @@ class RandomMethodView(MethodView):
         inherits from MethodView, but returns random Method from DB
         trying to efficiently choose Method using caching
     """
+
     def get_object(self, queryset=None):
         count = cache.get('count') or cache.set('count', self.get_queryset().count()) or cache.get('count')
         random_index = random.randint(0, count - 1)
@@ -60,12 +61,12 @@ def order_list_view(request, template='method/method_order_list.html'):
     min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min']
 
     orders = []
-    for i in range(min_nbells, max_nbells+1):
+    for i in range(min_nbells, max_nbells + 1):
         count = Method.objects.filter(method_set__p_stage=i).count()
         orders.append([i, count])
 
     sum_count = sum([o[1] for o in orders])
 
     return render_to_response(template,
-                              {'orders': orders, 'count': sum_count },
+                              {'orders': orders, 'count': sum_count},
                               context_instance=RequestContext(request))

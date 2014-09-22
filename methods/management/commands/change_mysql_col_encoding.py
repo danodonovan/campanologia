@@ -7,6 +7,7 @@ from django.conf import settings
 
 import MySQLdb
 
+
 class Command(BaseCommand):
     args = '<name of table to change>'
     help = 'change mysql column encoding'
@@ -16,7 +17,6 @@ class Command(BaseCommand):
     logger.setLevel(logging.DEBUG)
 
     def handle(self, *args, **options):
-
         host = settings.DATABASES['default']['HOST']
         passwd = settings.DATABASES['default']['PASSWORD']
         user = settings.DATABASES['default']['USER']

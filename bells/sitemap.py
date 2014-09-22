@@ -40,8 +40,8 @@ class BaseSitemap(Sitemap):
     def location(self, obj):
         return obj.get_absolute_url()
 
-    # def lastmod(self, obj):
-    #     return MethodSet.objects.latest().updated
+        # def lastmod(self, obj):
+        # return MethodSet.objects.latest().updated
 
 
 class MethodSitemap(BaseSitemap):
@@ -61,5 +61,5 @@ class MethodOrderCountSitemap(BaseSitemap):
 sitemaps = {
     'static': StaticSitemap,
     'methods': MethodSitemap,
-    #'order': MethodOrderCount,
+    # 'order': MethodOrderCount,
 }

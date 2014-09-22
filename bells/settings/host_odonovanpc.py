@@ -16,7 +16,7 @@ DATABASES = {
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    #os.path.abspath(os.path.join('..', 'bootstrap')),
+    # os.path.abspath(os.path.join('..', 'bootstrap')),
     os.path.abspath(os.path.join('bells', 'static_files')),
 )
 
