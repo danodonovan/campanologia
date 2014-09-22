@@ -139,3 +139,6 @@ LOGGING = {
         },
     }
 }
+
+# django 1.5 -> 1.7 migration
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
