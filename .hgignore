@@ -15,3 +15,4 @@ static
 # the virtualenv
 venv
 *.sqlite3
+config_files/
