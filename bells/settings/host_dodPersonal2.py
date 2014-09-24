@@ -9,8 +9,8 @@ BASE_DIR = os.path.dirname(
                 )
             )
 
-#DEBUG = True
-#TEMPLATE_DEBUG = DEBUG
+DEBUG = False
+TEMPLATE_DEBUG = DEBUG
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
@@ -25,11 +25,22 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/opt/venv/static'
+STATIC_ROOT = '/var/www/methodringing-static'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    # os.path.abspath(os.path.join('..', 'bootstrap')),
+    os.path.join(BASE_DIR, 'bells', 'static_files'),
+)
 
-ALLOWED_HOSTS = ['localhost', ]
+assert os.path.isdir(STATICFILES_DIRS[0]), "not a real dir"
+
+ALLOWED_HOSTS = [
+    'localhost',
+    '178.62.38.10'
+]
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+
