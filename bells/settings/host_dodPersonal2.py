@@ -16,5 +16,5 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = '/var/www/methodringing/static'
+STATIC_ROOT = '/opt/venv/static'
 STATIC_URL = '/static/'
