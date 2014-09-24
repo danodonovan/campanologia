@@ -3,6 +3,15 @@
 from __future__ import division, print_function, absolute_import
 import os
 
+BASE_DIR = os.path.dirname(
+                os.path.dirname(
+                    os.path.dirname(__file__)
+                )
+            )
+
+#DEBUG = True
+#TEMPLATE_DEBUG = DEBUG
+
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 DATABASES = {
@@ -18,3 +27,9 @@ DATABASES = {
 
 STATIC_ROOT = '/opt/venv/static'
 STATIC_URL = '/static/'
+
+ALLOWED_HOSTS = ['localhost', ]
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
