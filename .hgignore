@@ -1,0 +1,18 @@
+# use glob syntax.
+syntax: glob
+*.pyc
+.idea*
+*.un~
+*.swp
+sandbox/
+# ignore bootstrap unused files
+bells/static_files/bootstrap
+# ignore settings files
+bells/settings/host*
+bells/settings/local*
+# django created files
+static
+# the virtualenv
+venv
+*.sqlite3
+config_files/
