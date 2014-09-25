@@ -35,7 +35,13 @@ class RandomMethodView(MethodView):
     """
 
     def get_object(self, queryset=None):
-        count = cache.get('count') or cache.set('count', self.get_queryset().count()) or cache.get('count')
+
+        if 'count' in cache:
+            count = cache.get('count')
+        else:
+            count = self.get_queryset().count()
+            cache.set('count', count)
+
         random_index = random.randint(0, count - 1)
         return Method.objects.get(pk=random_index)
 
