@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^$', home, name='home'),
     url(r'^about/', about, name='about'),
     url(r'^methods/', include('methods.urls', namespace='methods', app_name='methods')),
+    url(r'^search/', include('haystack.urls')),
 )
 
 # sitemap bits - now cached as sitemap was HUGE and slow...
