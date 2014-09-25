@@ -3,11 +3,14 @@
 from __future__ import division, print_function, absolute_import
 import os
 
-BASE_DIR = os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(__file__)
-                )
+BASE_DIR = \
+    os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(
+                __file__
             )
+        )
+    )
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -28,15 +31,14 @@ DATABASES = {
 STATIC_ROOT = '/var/www/methodringing-static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    # os.path.abspath(os.path.join('..', 'bootstrap')),
     os.path.join(BASE_DIR, 'bells', 'static_files'),
 )
 
-assert os.path.isdir(STATICFILES_DIRS[0]), "not a real dir"
-
 ALLOWED_HOSTS = [
     'localhost',
-    '178.62.38.10'
+    '178.62.38.10',
+    '.methodringing.co.uk.',
+    '.ringingmethods.co.uk.'
 ]
 
 TEMPLATE_DIRS = (
