@@ -16,3 +16,4 @@ static
 venv
 *.sqlite3
 config_files/
+whoosh_index/

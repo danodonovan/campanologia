@@ -50,3 +50,10 @@ CACHES = {
         'LOCATION': os.getenv('LOCMEM_LOCATION')
     }
 }
+
+# for searches - simple engine is dummy engine
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
