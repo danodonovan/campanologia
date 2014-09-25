@@ -1,6 +1,8 @@
-# Django settings for project.
-import os
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, absolute_import
 
+# Django settings for project.
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
@@ -105,3 +107,10 @@ LOGGING = {
 
 # django 1.5 -> 1.7 migration
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# don't use dummy cache in production...
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
