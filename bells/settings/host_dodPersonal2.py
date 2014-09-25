@@ -43,4 +43,10 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-
+# Local memory caching is default if unspecified, but let's specify anyway
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': os.getenv('LOCMEM_LOCATION')
+    }
+}
