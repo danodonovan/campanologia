@@ -1,3 +1,7 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import division, print_function, absolute_import
+
 import logging
 import random
 
@@ -52,6 +56,18 @@ class MethodListView(ListView):
 
 class MethodSetListView(ListView):
     model = MethodSet
+
+    def readable_slug(self, slug):
+        slug = slug.replace('-methods', ' ')
+        slug = slug.replace('-', ' ')
+        slug = ' '.join((s.capitalize() for s in slug.split(' ')))
+        return slug
+
+    def get_queryset(self):
+        if 'slug' in self.kwargs:
+            self.kwargs['order'] = self.readable_slug(self.kwargs['slug'])
+            return Method.objects.filter(method_set__slug=self.kwargs['slug'])
+        return Method.objects.all()
 
 
 def order_list_view(request, template='method/method_order_list.html'):
