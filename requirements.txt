@@ -1,4 +1,10 @@
-Django>=1.7
-django-haystack>=2.3.1
-Whoosh>=2.6.0
-
+Django==1.7
+Whoosh==2.6.0
+argparse==1.2.1
+django-haystack==2.3.1
+futures==2.2.0
+gunicorn==19.1.1
+psycopg2==2.5.4
+python-ptrace==0.7
+trollius==1.0.1
+wsgiref==0.1.2
