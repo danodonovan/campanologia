@@ -3,6 +3,7 @@
 from __future__ import division, print_function, absolute_import
 
 from django.conf.urls import patterns, url
+from django.views.generic.base import RedirectView
 
 from .views import MethodView, MethodInfoView, RandomMethodView, MethodListView, MethodSetListView
 
@@ -38,4 +39,9 @@ urlpatterns = patterns('methods.urls',
        view=MethodInfoView.as_view(),
        name='detail_method'
     ),
+    url(
+        regex=r'',
+        view=RedirectView.as_view(pattern_name='home'),
+        name='home_redirect'
+    )
 )
