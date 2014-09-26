@@ -12,7 +12,7 @@ BASE_DIR = \
         )
     )
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
@@ -57,6 +57,6 @@ CACHES = {
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+        'PATH': '/var/www/whoosh_index',
     },
 }
