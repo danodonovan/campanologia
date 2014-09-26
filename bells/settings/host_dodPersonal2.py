@@ -37,8 +37,8 @@ STATICFILES_DIRS = (
 ALLOWED_HOSTS = [
     'localhost',
     '178.62.38.10',
-    '.methodringing.co.uk.',
-    '.ringingmethods.co.uk.'
+    '.methodringing.co.uk',
+    '.ringingmethods.co.uk'
 ]
 
 TEMPLATE_DIRS = (
@@ -53,9 +53,10 @@ CACHES = {
     }
 }
 
-# for searches - simple engine is dummy engine
+# search using whoosh
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
     },
 }
