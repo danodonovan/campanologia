@@ -6,7 +6,7 @@ import socket
 from .settings import *
 
 # get local files
-if socket.gethostname() == 'odonovan-pc':
+if socket.gethostname() in ('odonovan-pc', 'probeast.home'):
     from .host_odonovanpc import *
 
 if socket.gethostname() == 'dodPersonal2':
