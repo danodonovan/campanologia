@@ -41,7 +41,7 @@ urlpatterns = patterns('methods.urls',
     ),
     url(
         regex=r'',
-        view=RedirectView.as_view(pattern_name='home'),
-        name='home_redirect'
+        view=RedirectView.as_view(pattern_name='haystack_search'),
+        name='search_redirect'
     )
 )
