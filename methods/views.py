@@ -73,7 +73,7 @@ class MethodSetListView(ListView):
         if 'slug' in self.kwargs:
             self.kwargs['order'] = self.readable_slug(self.kwargs['slug'])
             return Method.objects.filter(method_set__slug=self.kwargs['slug'])
-        return Method.objects.all()
+        return MethodSet.objects.all()
 
 
 def order_list_view(request, template='method/method_order_list.html'):
