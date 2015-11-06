@@ -30,7 +30,7 @@ def sanitise_cccbr_notation(raw_notation):
         nr, lh = raw_notation, ''
 
     else:
-        print 'more than one "," in %s : %s' % raw_notation
+        logging.error('more than one "," in %s : %s' % raw_notation)
         raise Exception
 
     i = 0
@@ -105,9 +105,6 @@ class MethodSet(models.Model):
 
     # django functions
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
         return '{nbells} bells: {notes}'.format(notes=self.notes, nbells=self.p_stage)
 
     def get_absolute_url(self):
@@ -117,7 +114,7 @@ class MethodSet(models.Model):
         class_vals = [self.notes, self.p_stage, self.p_lengthOfLead,
                       self.p_numberOfHunts, self.p_huntBellPath, self.p_symmetry]
         ustring = ''.join(['%s' % a for a in class_vals])
-        return '%s' % hashlib.sha224(ustring).hexdigest()
+        return hashlib.sha224(ustring.encode("utf-8")).hexdigest()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.notes)
@@ -157,8 +154,8 @@ class Method(models.Model):
     tdmm_reference = models.CharField('Numerical index in the Treble Dodging Minor Methods collection', max_length=63)
 
     # performances
-    first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='first hand bell peak', null=True)
-    first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='first tower bell peak', null=True)
+    first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='firstHandBellPeak', null=True)
+    first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='firstTowerBellPeak', null=True)
 
     class Meta:
         ordering = ('title',)
@@ -176,9 +173,6 @@ class Method(models.Model):
         return reverse('methods:single_method', args=[self.slug, ])
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
-
-    def __unicode__(self):
         return self.title
 
 
