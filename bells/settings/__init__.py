@@ -6,8 +6,8 @@ import socket
 from .settings import *
 
 # get local files
-if socket.gethostname() == 'odonovan-pc':
+if socket.gethostname().lower() in ('odonovan-pc', 'probeast.local', 'probeast.home'):
     from .host_odonovanpc import *
 
-if socket.gethostname() == 'dodPersonal2':
+if socket.gethostname().lower() == 'dodPersonal2':
     from .host_dodPersonal2 import *

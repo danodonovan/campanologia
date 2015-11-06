@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
-from optparse import make_option
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
 from methods.models import MethodSet, Method, FirstHandbellPeal, FirstTowerbellPeal
 
 try:
     from lxml import etree
 except ImportError:
-    print 'installing lxml will speed this up'
+    print('installing lxml will speed this up')
     import xml.etree.ElementTree as etree
 
 schema = "http://www.cccbr.org.uk/methods/schemas/2007/05/methods"
@@ -24,7 +23,8 @@ def xmlns(tag):
 def find_tag_text(element, tag):
     if element is None: return ''
     text = getattr(element.find(xmlns(tag)), 'text', None)
-    return str(text.encode("utf-8")) if text else ''
+    # return str(text.encode("utf-8")) if text else ''
+    return text or ''
 
 
 class Command(BaseCommand):
@@ -35,18 +35,23 @@ class Command(BaseCommand):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
 
-    option_list = BaseCommand.option_list + (
-        make_option('--populate-verbose',
-                    action='store_true',
-                    dest='verbose',
-                    default=False,
-                    help='Verbose DB populate output'),
-    )
+    def add_arguments(self, parser):
+        parser.add_argument('--xml-file',
+                            dest='xml_file',
+                            required=True,
+                            help='XML file to update db')
+        parser.add_argument('--populate-verbose',
+                            action='store_true',
+                            dest='verbose',
+                            default=False,
+                            help='Verbose DB populate output')
 
-    def handle(self, file, *args, **options):
+    def handle(self, *args, **options):
+
+        file = options['xml_file']
 
         if not os.path.isfile(file):
-            raise IOError('file %s not found' % file)
+            raise CommandError('populate db: file %s not found' % file)
 
         verbosity = options['verbose']
 
@@ -93,10 +98,10 @@ class Command(BaseCommand):
                     if verbosity:
                         self.logger.debug(u'Method {method} saved'.format(method=m.title))
                 except UnicodeEncodeError:
-                    print 'Unicode{De,En}codeError - probably "Sméagol"'
+                    print('Unicode{De,En}codeError - probably "Sméagol"')
                     pass
                 except UnicodeDecodeError:
-                    print 'Unicode{De,En}codeError - probably "Sméagol"'
+                    print('Unicode{De,En}codeError - probably "Sméagol"')
                     pass
 
                 performances = method.find(xmlns('performances'))
