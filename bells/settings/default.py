@@ -29,10 +29,20 @@ USE_I18N = False
 USE_L10N = False
 USE_TZ = False
 
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            __file__
+        )
+    )
+)
+
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = ['bells/static_files']
+STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -126,14 +136,6 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
-
-BASE_DIR = os.path.dirname(
-    os.path.dirname(
-        os.path.dirname(
-            __file__
-        )
-    )
-)
 
 DATABASES = {
     'default': {
