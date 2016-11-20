@@ -42,8 +42,10 @@ class RandomMethodView(MethodView):
             count = self.get_queryset().count()
             cache.set('count', count)
 
-        random_index = random.randint(0, count - 1)
-        return Method.objects.get(pk=random_index)
+        if count:
+            random_index = random.randint(0, count - 1)
+            return Method.objects.get(pk=random_index)
+        return None
 
 
 class MethodListView(ListView):
@@ -79,8 +81,8 @@ class MethodSetListView(ListView):
 def order_list_view(request, template='method/method_order_list.html'):
     logger.debug('order_list_view')
 
-    max_nbells = MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max']
-    min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min']
+    max_nbells = max(MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max'], 1)
+    min_nbells = MethodSet.objects.all().aggregate(Min('p_stage'))['p_stage__min'] or 1
 
     orders = []
     for i in range(min_nbells, max_nbells + 1):
