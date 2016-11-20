@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import division, print_function, absolute_import
+import os
 
 # Django settings for project.
 DEBUG = False
@@ -30,6 +31,8 @@ USE_TZ = False
 
 MEDIA_ROOT = ''
 MEDIA_URL = ''
+
+STATIC_URL = 'static/'
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -115,3 +118,30 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
+
+SECRET_KEY = 'this is not a secret key'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            __file__
+        )
+    )
+)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'methods.sqlite3'),
+    }
+}
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
