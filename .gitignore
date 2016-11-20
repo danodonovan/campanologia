@@ -1,0 +1,5 @@
+.idea
+.cache
+.python-version
+*.sqlite3
+static/
