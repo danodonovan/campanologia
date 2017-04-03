@@ -3,17 +3,20 @@ from django.test import TestCase
 from methods.models import MethodSet
 
 
+methodset_example = dict(
+    notes="<notes>",
+    p_stage=1,
+    p_lengthOfLead=1,
+    p_numberOfHunts=1,
+    p_huntBellPath="<huntbellPath>",
+    p_symmetry="<symmetry>"
+)
+
+
 class MethodSetTestCase(TestCase):
 
     def setUp(self):
-        MethodSet.objects.create(
-            notes="<notes>",
-            p_stage=1,
-            p_lengthOfLead=1,
-            p_numberOfHunts=1,
-            p_huntBellPath="<huntbellPath>",
-            p_symmetry="<symmetry>"
-        )
+        MethodSet.objects.create(**methodset_example)
 
     def test_set_correctly(self):
         method_set = MethodSet.objects.get(notes="<notes>")
