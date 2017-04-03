@@ -3,3 +3,4 @@
 .python-version
 *.sqlite3
 static/
+campanologia.egg-info/

@@ -129,7 +129,16 @@ CACHES = {
     }
 }
 
-SECRET_KEY = 'this is not a secret key'
+
+_SECRET_KEY = os.getenv('SECRET_KEY', None)
+
+if _SECRET_KEY is None:
+    import random
+    import string
+    SECRET_KEY = [random.choice(string.printable) for i in range(32)]
+else:
+    SECRET_KEY = _SECRET_KEY
+
 
 HAYSTACK_CONNECTIONS = {
     'default': {
