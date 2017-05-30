@@ -4,3 +4,4 @@
 *.sqlite3
 static/
 campanologia.egg-info/
+*.pyc
