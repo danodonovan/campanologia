@@ -2,8 +2,8 @@ version: '2'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: /usr/local/bin/gunicorn bells.wsgi:application -w 4 -b 0.0.0.0:5000
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "8000:5000"
