@@ -83,11 +83,8 @@ WSGI_APPLICATION = 'bells.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('ENGINE', 'django.db.backends.postgresql_psycopg2'),
-        'NAME': os.getenv('NAME', 'postgres'),
-        'USER': os.getenv('USER', 'postgres'),
-        'HOST': os.getenv('HOST', 'db'),
-        'PORT': os.getenv('PORT', 5432),
+        'ENGINE': os.getenv('ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'methods.sqlite3')
      }
  }
 
