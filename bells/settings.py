@@ -12,22 +12,25 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+dotenv_path = os.path.join(BASE_DIR, 'settings.env')
+if os.path.isfile(dotenv_path):
+    load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-_SECRET_KEY = os.getenv('SECRET_KEY', None)
-SECRET_KEY = '!8kd(*^6#d!ekm4ac49la=bp%6!o(^n*m4%yeyoq+c-d4o-sj^' if _SECRET_KEY is None else _SECRET_KEY
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('HOST', '').split(',')
 
 
 # Application definition
@@ -80,10 +83,10 @@ WSGI_APPLICATION = 'bells.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'methods.sqlite3'),
-    }
-}
+        'ENGINE': os.getenv('ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'methods.sqlite3')
+     }
+ }
 
 
 # Internationalization
