@@ -1,0 +1,16 @@
+[
+{
+    "model": "methods.methodset",
+    "pk": 1,
+    "fields": {
+        "notes": "Single-hunt Minimus methods",
+        "slug": "single-hunt-minimus-methods",
+        "p_stage": 4,
+        "p_lengthOfLead": 8,
+        "p_numberOfHunts": 1,
+        "p_huntBellPath": "1 2 3 4 4 3 2 1",
+        "p_symmetry": "palindromic",
+        "uniq_hash": "ab7c3beeb33460f90b94ea41679c788cd2d48c6b95da22b0605861ad"
+    }
+}
+]
