@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import os
 import logging
+from zipfile import ZipFile
+from contextlib import contextmanager
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -28,7 +30,7 @@ def find_tag_text(element, tag):
 
 
 class Command(BaseCommand):
-    args = '<path to CCCBR xml file> -v=<verbosity>'
+    args = '<path to CCCBR xml (zip) file> -v=<verbosity>'
     help = 'Populates the methods table from the CCCBR method XML'
 
     logging.basicConfig()
@@ -39,25 +41,35 @@ class Command(BaseCommand):
         parser.add_argument('--xml-file',
                             dest='xml_file',
                             required=True,
-                            help='XML file to update db')
+                            help='XML (zip) file to update db')
         parser.add_argument('--populate-verbose',
                             action='store_true',
                             dest='verbose',
                             default=False,
                             help='Verbose DB populate output')
 
+    @contextmanager
+    def _open_xml(self, filepath):
+
+        if not os.path.isfile(filepath):
+            raise CommandError('populate db: file {} not found'.format(filepath))
+
+        if filepath.endswith('.zip'):
+            with ZipFile(filepath, 'r') as fh:
+                yield fh.open('allmeths.xml')
+        else:
+            with open(filepath, 'r') as fh:
+                yield fh
+
     def handle(self, *args, **options):
 
-        file = options['xml_file']
-
-        if not os.path.isfile(file):
-            raise CommandError('populate db: file %s not found' % file)
+        self.logger.debug('populating from file "{}"'.format(options['xml_file']))
 
         verbosity = options['verbose']
 
-        self.logger.debug('populating from file "%s"' % file)
+        with self._open_xml(options['xml_file']) as fh:
+            tree = etree.parse(fh)
 
-        tree = etree.parse(file)
         root = tree.getroot()
 
         for methodSet in root.findall(xmlns('methodSet')):
