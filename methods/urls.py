@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import division, print_function, absolute_import
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic.base import RedirectView
 
 from .views import MethodView, MethodInfoView, RandomMethodView, MethodListView, MethodSetListView
 
 
-urlpatterns = patterns('methods.urls',
+urlpatterns = [
     url(
        regex=r'order/(?P<order>(\d+))$',
        view=MethodListView.as_view(),
@@ -44,4 +44,4 @@ urlpatterns = patterns('methods.urls',
         view=RedirectView.as_view(pattern_name='haystack_search', permanent=False),
         name='search_redirect'
     )
-)
+]
