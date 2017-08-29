@@ -1,7 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import division, print_function, absolute_import
-
 from django.conf.urls import patterns, include, url
 from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page

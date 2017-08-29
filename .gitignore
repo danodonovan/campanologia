@@ -1,7 +1,10 @@
 .idea
 .cache
 .python-version
-*.sqlite3
+settings.env
+allmeths*xml*
 static/
-campanologia.egg-info/
+.tox/
+*.sqlite3
+*.egg-info/
 *.pyc
