@@ -1,0 +1,26 @@
+[
+{
+    "model": "methods.method",
+    "pk": 1,
+    "fields": {
+        "method_set": 1,
+        "title": "Plain Bob Minimus",
+        "slug": "plain-bob-minimus",
+        "name": "Plain",
+        "raw_notation": "-14-14,12",
+        "notation": "['X', '14', 'X', '14']",
+        "leadHead": "12",
+        "leadHeadCode": "",
+        "classification": "Bob",
+        "method_notes": "",
+        "falseness_groups": "",
+        "rw_reference": "1961/91",
+        "bn_reference": "",
+        "cb_reference": "",
+        "pmm_reference": "",
+        "tdmm_reference": "",
+        "first_hb_peal": null,
+        "first_tb_peal": 1
+    }
+}
+]

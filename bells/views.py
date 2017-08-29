@@ -1,7 +1,6 @@
 import logging
 
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 
 from methods.views import order_list_view
 
@@ -17,4 +16,4 @@ def home(request):
 def about(request):
     logger.debug('about')
 
-    return render_to_response('about.html', context_instance=RequestContext(request))
+    return render(request, 'about.html')

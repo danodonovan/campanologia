@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-from __future__ import print_function, division
-from io import StringIO
 from tempfile import NamedTemporaryFile
 
 from django.core.management import call_command
