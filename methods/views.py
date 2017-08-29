@@ -6,8 +6,7 @@ import logging
 import random
 
 from django.core.cache import cache
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.db.models import Max, Min
 from django.views.generic import DetailView, ListView
 
@@ -91,6 +90,4 @@ def order_list_view(request, template='method/method_order_list.html'):
 
     sum_count = sum([o[1] for o in orders])
 
-    return render_to_response(template,
-                              {'orders': orders, 'count': sum_count},
-                              context_instance=RequestContext(request))
+    return render(request, template, {'orders': orders, 'count': sum_count})
