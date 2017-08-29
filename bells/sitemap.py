@@ -1,7 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import division, print_function, absolute_import
-
 from django.contrib.sitemaps import GenericSitemap
 from methods.models import Method, MethodSet
 
