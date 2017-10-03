@@ -9,24 +9,7 @@ def sanitise_cccbr_notation(raw_notation):
         - provide method, return updated method (unsaved)
     """
 
-    # check for lead head
-    if raw_notation.count(',') == 1:
-        rns = raw_notation.split(',')
-
-        # we've got a symmetric method
-        if len(rns[0]) > len(rns[-1]):
-            nr, lh = rns
-
-        # we've got a screwy odd bell method
-        elif len(rns[0]) < len(rns[-1]):
-            lh, nr = rns
-
-    elif raw_notation.count(',') == 0:
-        nr, lh = raw_notation, ''
-
-    else:
-        logging.error('more than one "," in %s : %s' % raw_notation)
-        raise Exception
+    lh, nr = _lead_head(raw_notation)
 
     i = 0
     n_t, n = [], []
@@ -75,3 +58,31 @@ def sanitise_cccbr_notation(raw_notation):
         n.append(''.join(n_t))
 
     return '%s' % n.__repr__(), lh
+
+
+def _lead_head(raw_notation):
+
+    # check for lead head
+    if raw_notation.count(',') == 1:
+        rns = raw_notation.split(',')
+
+        # we've got a symmetric method
+        if len(rns[0]) > len(rns[-1]):
+            notation, lead_head = rns
+
+        # we've got a screwy odd bell method
+        elif len(rns[0]) < len(rns[-1]):
+            lead_head, notation = rns
+
+        else:
+            logging.error('unrecognised comma location in {}'.format(raw_notation))
+            raise Exception
+
+    elif raw_notation.count(',') == 0:
+        notation, lead_head = raw_notation, ''
+
+    else:
+        logging.error('more than one "," in {}'.format(raw_notation))
+        raise Exception
+
+    return lead_head, notation
