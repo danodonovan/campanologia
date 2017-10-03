@@ -11,40 +11,37 @@ def sanitise_cccbr_notation(raw_notation):
 
     lead_head, _raw_notation = _lead_head(raw_notation)
 
-    i = 0
-    n_t, n = [], []
+    n_t, notation = [], []
     n_t_reset = False
 
     # there are edge case problems for Orignal N and Cheeky Little Place Minimus
     if len(_raw_notation) == 1:
         return _edge_cases(_raw_notation), lead_head
 
-    while i < len(_raw_notation):
+    for place in _raw_notation:
         if n_t_reset:
             n_t = []
 
-        if _raw_notation[i] == '-' or _raw_notation[i] == '.':
+        if place == '-' or place == '.':
             if n_t:
-                n.append(''.join(n_t))
+                notation.append(''.join(n_t))
                 n_t = []
-            if _raw_notation[i] == '-':
-                n.append('X')
+            if place == '-':
+                notation.append('X')
             n_t_reset = True
 
-        elif _raw_notation[i] in raw_notation:
-            n_t.append(_raw_notation[i])
+        elif place in raw_notation:
+            n_t.append(place)
             n_t_reset = False
 
         else:
-            n.append(''.join(n_t))
+            notation.append(''.join(n_t))
             n_t_reset = True
 
-        i += 1
-
     if n_t:
-        n.append(''.join(n_t))
+        notation.append(''.join(n_t))
 
-    return '%s' % n.__repr__(), lead_head
+    return '%s' % notation.__repr__(), lead_head
 
 
 def _edge_cases(_raw_notation):
