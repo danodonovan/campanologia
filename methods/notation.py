@@ -9,43 +9,30 @@ def sanitise_cccbr_notation(raw_notation):
         - provide method, return updated method (unsaved)
     """
 
-    lh, nr = _lead_head(raw_notation)
+    lead_head, _raw_notation = _lead_head(raw_notation)
 
     i = 0
     n_t, n = [], []
     n_t_reset = False
 
     # there are edge case problems for Orignal N and Cheeky Little Place Minimus
-    if len(nr) == 1:
-        # if we're dealing with original
-        if nr[0] == '-':
-            n.extend(['X', '1'])
-            return n, lh
+    if len(_raw_notation) == 1:
+        return _edge_cases(_raw_notation), lead_head
 
-        # if we're dealing with original odd
-        if nr[0] in ['3', '5', '7', '9', 'E', 'A', 'C']:
-            n.extend(['X', '1'])
-            return n, lh
-
-        # if we're dealing with Cheeky Little Place
-        elif nr[0] == '1':
-            n.extend(['14', '12'])
-            return n, lh
-
-    while i < len(nr):
+    while i < len(_raw_notation):
         if n_t_reset:
             n_t = []
 
-        if nr[i] == '-' or nr[i] == '.':
+        if _raw_notation[i] == '-' or _raw_notation[i] == '.':
             if n_t:
                 n.append(''.join(n_t))
                 n_t = []
-            if nr[i] == '-':
+            if _raw_notation[i] == '-':
                 n.append('X')
             n_t_reset = True
 
-        elif nr[i] in raw_notation:
-            n_t.append(nr[i])
+        elif _raw_notation[i] in raw_notation:
+            n_t.append(_raw_notation[i])
             n_t_reset = False
 
         else:
@@ -57,7 +44,25 @@ def sanitise_cccbr_notation(raw_notation):
     if n_t:
         n.append(''.join(n_t))
 
-    return '%s' % n.__repr__(), lh
+    return '%s' % n.__repr__(), lead_head
+
+
+def _edge_cases(_raw_notation):
+
+    # if we're dealing with original
+    if _raw_notation[0] == '-':
+        return ['X', '1']
+
+    # if we're dealing with original odd
+    elif _raw_notation[0] in ['3', '5', '7', '9', 'E', 'A', 'C']:
+        return ['X', '1']
+
+    # if we're dealing with Cheeky Little Place
+    elif _raw_notation[0] == '1':
+        return ['14', '12']
+
+    else:
+        raise Exception('Unknown edge case')
 
 
 def _lead_head(raw_notation):
