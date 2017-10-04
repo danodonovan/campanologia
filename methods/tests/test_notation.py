@@ -2,7 +2,7 @@
 # encoding: utf-8
 from django.test import TestCase
 
-from methods.notation import _lead_head, _edge_cases
+from methods.notation import _lead_head, _edge_cases, _sanitise
 
 
 class LeadHeadTestCase(TestCase):
@@ -49,3 +49,20 @@ class EdgeCasesTestCase(TestCase):
 
         with self.assertRaises(Exception):
             _edge_cases('2.2')
+
+
+class SanitiseTestCase(TestCase):
+
+    def test_just_periods_split(self):
+
+        self.assertListEqual(
+            _sanitise('3.1.5.1.5.1.5.1.5.145', '3.1.5.1.5.1.5.1.5.145'),
+            ['3', '1', '5', '1', '5', '1', '5', '1', '5', '145']
+        )
+
+    def test_odd_bell(self):
+
+        self.assertListEqual(
+            _sanitise('1.5.1.3.1', '3,1.5.1.3.1'),
+            ['1', '5', '1', '3', '1']
+        )

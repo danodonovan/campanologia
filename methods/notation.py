@@ -11,12 +11,19 @@ def sanitise_cccbr_notation(raw_notation):
 
     lead_head, _raw_notation = _lead_head(raw_notation)
 
-    n_t, notation = [], []
-    n_t_reset = False
-
     # there are edge case problems for Orignal N and Cheeky Little Place Minimus
     if len(_raw_notation) == 1:
         return _edge_cases(_raw_notation), lead_head
+
+    notation = _sanitise(_raw_notation, raw_notation)
+
+    return '%s' % notation.__repr__(), lead_head
+
+
+def _sanitise(_raw_notation, complete_raw_notation):
+
+    n_t, notation = [], []
+    n_t_reset = False
 
     for place in _raw_notation:
         if n_t_reset:
@@ -30,18 +37,17 @@ def sanitise_cccbr_notation(raw_notation):
                 notation.append('X')
             n_t_reset = True
 
-        elif place in raw_notation:
+        elif place in complete_raw_notation:
             n_t.append(place)
             n_t_reset = False
 
         else:
             notation.append(''.join(n_t))
             n_t_reset = True
-
     if n_t:
         notation.append(''.join(n_t))
 
-    return '%s' % notation.__repr__(), lead_head
+    return notation
 
 
 def _edge_cases(_raw_notation):
