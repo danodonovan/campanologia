@@ -13,7 +13,7 @@ class LeadHeadTestCase(TestCase):
 
     def test_not_blank_if_comma_odd_bell(self):
 
-        self.assertEqual(_lead_head("1,1.1"), ("1", "1.1"))
+        self.assertEqual(_lead_head("1,1.1"), ("", "1.1.1.1"))
 
     def test_blank_if_no_comma(self):
 

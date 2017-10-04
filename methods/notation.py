@@ -80,7 +80,7 @@ def _lead_head(raw_notation):
 
         # we've got a screwy odd bell method
         elif len(rns[0]) < len(rns[-1]):
-            lead_head, notation = rns
+            lead_head, notation = '', '.'.join(rns) + rns[-1][:-1][::-1]
 
         else:
             logging.error('unrecognised comma location in {}'.format(raw_notation))
