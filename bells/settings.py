@@ -42,7 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'haystack',
-    'methods'
+    'methods',
 )
 
 MIDDLEWARE_CLASSES = (
