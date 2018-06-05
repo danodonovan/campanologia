@@ -26,12 +26,9 @@ if os.path.isfile(dotenv_path):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
-
-ALLOWED_HOSTS = os.getenv('HOST', '').split(',')
-
+DEBUG = os.getenv('DEBUG', True)
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS_STRING', []).split(',')
 
 # Application definition
 
@@ -108,7 +105,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
 
 # Third party
-
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
