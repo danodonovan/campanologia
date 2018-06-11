@@ -8,3 +8,5 @@ static/
 *.sqlite3
 *.egg-info/
 *.pyc
+notes.txt
+zappa_settings.json

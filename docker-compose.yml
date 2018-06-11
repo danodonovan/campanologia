@@ -1,9 +1,0 @@
-version: '2'
-services:
-  web:
-    build: .
-    command: /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-    volumes:
-      - .:/code
-    ports:
-      - "80:80"

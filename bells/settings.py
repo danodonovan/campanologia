@@ -26,12 +26,9 @@ if os.path.isfile(dotenv_path):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
-
-ALLOWED_HOSTS = os.getenv('HOST', '').split(',')
-
+DEBUG = bool(os.getenv('DEBUG', False))
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS_STRING', '').split(',')
 
 # Application definition
 
@@ -42,7 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'haystack',
-    'methods'
+    'methods',
+    'storages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,17 +96,32 @@ USE_L10N = True
 
 USE_TZ = True
 
+# django-storage
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
+AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
+AWS_LOCATION = os.getenv('AWS_LOCATION')
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = ['bells/static_files']
-STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'bells/static_files'),
+]
 
+if os.getenv('LOCAL_STATIC', False):
+    _static_url = '/static/'
+    _staticfiles_storage = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    _static_root = os.path.join(os.getcwd(), 'static/')
+else:
+    _static_url = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+    _staticfiles_storage = 'storages.backends.s3boto3.S3Boto3Storage'
+    _static_root = None
+
+STATIC_ROOT = _static_root
+STATIC_URL = _static_url
+STATICFILES_STORAGE = _staticfiles_storage
 
 # Third party
-
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
