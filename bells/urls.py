@@ -5,19 +5,40 @@ from django.views.decorators.cache import cache_page
 from .views import home, about
 from .sitemap import sitemaps
 
+
 urlpatterns = [
-    url(r'^$', home, name='home'),
-    url(r'^about/', about, name='about'),
-    url(r'^methods/', include('methods.urls', namespace='methods', app_name='methods')),
-    url(r'^search/', include('haystack.urls'), name='haystack_search'),
+    url(
+        r'^$',
+        home,
+        name='home'
+    ),
+    url(
+        r'^about/',
+        about,
+        name='about'
+    ),
+    url(
+        r'^methods/',
+        include('methods.urls', namespace='methods', app_name='methods'),
+    ),
+    url(
+        r'^search/',
+        include('haystack.urls'),
+    ),
 ]
 
 # sitemap bits - now cached as sitemap was HUGE and slow...
 urlpatterns += [
-    url(r'^sitemap\.xml$',
+    url(
+        r'^sitemap\.xml$',
         cache_page(86400)(sitemaps_views.index),
-        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
-    url(r'^sitemap-(?P<section>.+)\.xml$',
+        {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'},
+        name='sitemap_url'
+    ),
+    url(
+        r'^sitemap-(?P<section>.+)\.xml$',
         cache_page(86400)(sitemaps_views.sitemap),
-        {'sitemaps': sitemaps}, name='sitemaps'),
+        {'sitemaps': sitemaps},
+        name='sitemaps'
+    ),
 ]
