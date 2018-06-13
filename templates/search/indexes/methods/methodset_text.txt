@@ -1,2 +1,0 @@
-{{ object.p_stage }}
-{{ object.notes }}
