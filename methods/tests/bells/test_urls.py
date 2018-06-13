@@ -4,6 +4,8 @@ from django.urls import reverse
 
 class TestBellsUrls(TestCase):
 
+    fixtures = ['methods.json', 'methodset.json', 'firsttowerbellpeal.json']
+
     @classmethod
     def setUpClass(cls):
         super(TestBellsUrls, cls).setUpClass()
