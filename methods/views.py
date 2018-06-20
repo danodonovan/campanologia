@@ -73,7 +73,7 @@ class MethodSetListView(ListView):
         return MethodSet.objects.all()
 
 
-def order_list_view(request, template='method/method_order_list.html'):
+def order_list_view(request, template='method/method_order_list.html', **kwargs):
     logger.debug('order_list_view')
 
     max_nbells = max(MethodSet.objects.all().aggregate(Max('p_stage'))['p_stage__max'], 1)
@@ -86,4 +86,7 @@ def order_list_view(request, template='method/method_order_list.html'):
 
     sum_count = sum([o[1] for o in orders])
 
-    return render(request, template, {'orders': orders, 'count': sum_count})
+    context = kwargs
+    context.update(**{'orders': orders, 'count': sum_count})
+
+    return render(request, template, context=context)
