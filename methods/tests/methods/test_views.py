@@ -1,5 +1,3 @@
-from unittest import expectedFailure
-
 from django.test import TestCase, Client
 
 from methods.models import MethodSet, Method
@@ -35,7 +33,6 @@ class TestMethodListView(TestCase):
         response = self.client.get('/methods/order/6')
         self.assertContains(response, '<a href="/methods/test-title-100/">')
 
-    @expectedFailure
     def test_list_does_not_paginate_past_100_methods(self):
         _add_methods(n_methods=101, n_bells=6)
         response = self.client.get('/methods/order/6')
@@ -57,7 +54,7 @@ def _add_methods(n_methods, n_bells):
     for i in range(1, n_methods + 1):
         Method.objects.create(
             id=i,
-            title='<test title {}>'.format(i),
+            title='<test title {:03d}>'.format(i),
             slug='slug-{}'.format(i),
             name='<test name {}>'.format(i),
             raw_notation='raw-x{}x'.format(i),
