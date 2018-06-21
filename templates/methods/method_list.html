@@ -1,20 +1,45 @@
 {% extends "base.html" %}
-{#{% load pagination_tags %}#}
 {% block title %}{{ view.kwargs.order }} Bell Methods{% endblock title %}
 {% block content %}
-
-{#{% autopaginate page_obj %}#}
-
-	<article>
-        <h1>{{ view.kwargs.order }} Bell Methods</h1>
-        <table class="table table-striped">
-	    {% for method in method_list %}
-            <tr>
-                <td><a href="{{ method.get_absolute_url }}">{{ method.title }}</a></td>
-                <td><a href="{{ method.method_set.get_absolute_url }}">{{ method.method_set.notes }}</a></td>
-            </tr>
-	    {% endfor %}
-        </table>
-	</article>
+<article>
+    <h1>{{ view.kwargs.order }} Bell Methods</h1>
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+    <table class="table table-striped">
+    {% for method in method_list %}
+        <tr>
+            <td><a href="{{ method.get_absolute_url }}">{{ method.title }}</a></td>
+            <td><a href="{{ method.method_set.get_absolute_url }}">{{ method.method_set.notes }}</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+</article>
 {% endblock content %}
-
