@@ -1,7 +1,7 @@
 import hashlib
 import logging
 
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.template.defaultfilters import slugify
 
@@ -56,7 +56,7 @@ class Method(models.Model):
     """
 
     id = models.IntegerField('id', primary_key=True)
-    method_set = models.ForeignKey(MethodSet, on_delete=models.CASCADE)
+    method_set = models.ForeignKey(MethodSet)
 
     title = models.CharField('title', max_length=255, unique=True)
     slug = models.SlugField('slug', max_length=255)
@@ -82,8 +82,8 @@ class Method(models.Model):
     tdmm_reference = models.CharField('Numerical index in the Treble Dodging Minor Methods collection', max_length=63)
 
     # performances
-    first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='firstHandBellPeak', null=True, on_delete=models.CASCADE)
-    first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='firstTowerBellPeak', null=True, on_delete=models.CASCADE)
+    first_hb_peal = models.OneToOneField('FirstHandbellPeal', related_name='firstHandBellPeak', null=True)
+    first_tb_peal = models.OneToOneField('FirstTowerbellPeal', related_name='firstTowerBellPeak', null=True)
 
     class Meta:
         ordering = ('title',)

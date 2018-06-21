@@ -19,7 +19,7 @@ urlpatterns = [
     ),
     url(
         r'^methods/',
-        include(('methods.urls', 'methods'), namespace='methods')
+        include('methods.urls', namespace='methods', app_name='methods'),
     ),
     url(
         r'^search/',
