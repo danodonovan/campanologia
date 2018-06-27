@@ -33,7 +33,7 @@ class MethodSetTestCase(TestCase):
 
     def test_get_absolute_url_is_correct(self):
         method_set = MethodSet.objects.get(notes="<notes>")
-        self.assertEqual(method_set.get_absolute_url(), "/methods/sets/notes/")
+        self.assertEqual(method_set.get_absolute_url(), "/methods/sets/notes")
 
     def test_get_unique_hash(self):
         method_set = MethodSet.objects.get(notes="<notes>")

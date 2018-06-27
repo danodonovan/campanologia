@@ -22,44 +22,44 @@ class TestMethodsUrls(TestCase):
         )
 
     def test_order_paginated_status(self):
-        response = self.client.get('/methods/order/6/1/')
+        response = self.client.get('/methods/order/6/1')
         self.assertEqual(response.status_code, 200)
 
     def test_order_paginated_url(self):
         self.assertEqual(
             reverse(viewname='methods:order_paginated', kwargs=dict(order=6, page=1)),
-            '/methods/order/6/1/'
+            '/methods/order/6/1'
         )
 
     def test_list_method_set_status(self):
-        response = self.client.get('/methods/sets/single-hunt-minimus-methods/')
+        response = self.client.get('/methods/sets/single-hunt-minimus-methods')
         self.assertEqual(response.status_code, 200)
 
     def test_list_method_set_url(self):
         self.assertEqual(
             reverse(viewname='methods:list_method_set', kwargs=dict(slug='single-hunt-minimus-methods')),
-            '/methods/sets/single-hunt-minimus-methods/'
+            '/methods/sets/single-hunt-minimus-methods'
         )
 
     def test_random_status(self):
-        response = self.client.get('/methods/random/')
+        response = self.client.get(reverse(viewname='methods:random'))
         self.assertEqual(response.status_code, 200)
 
     def test_random_url(self):
         self.assertEqual(
             reverse(viewname='methods:random'),
-            '/methods/random/'
+            '/methods/random'
         )
 
     @skip('Will not pass if DB not set up')
     def test_single_method_status(self):
-        response = self.client.get('/methods/plain-bob-minimus/')
+        response = self.client.get('/methods/plain-bob-minimus')
         self.assertEqual(response.status_code, 200)
 
     def test_single_method_url(self):
         self.assertEqual(
             reverse(viewname='methods:single_method', kwargs=dict(slug='plain-bob-minimus')),
-            '/methods/plain-bob-minimus/'
+            '/methods/plain-bob-minimus'
         )
 
     @skip('Will not pass if DB not set up')

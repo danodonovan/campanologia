@@ -33,13 +33,13 @@ class TestMethodListView(TestCase):
     def test_list_paginates_to_100_methods(self):
         _add_methods(n_methods=101, n_bells=6)
         response = self.client.get('/methods/order/6')
-        self.assertContains(response, '<a href="/methods/test-title-100/">')
+        self.assertContains(response, '<a href="/methods/test-title-100">')
 
     @expectedFailure
     def test_list_does_not_paginate_past_100_methods(self):
         _add_methods(n_methods=101, n_bells=6)
         response = self.client.get('/methods/order/6')
-        self.assertNotContains(response, '<a href="/methods/test-title-101/">')
+        self.assertNotContains(response, '<a href="/methods/test-title-101">')
 
 
 def _add_methods(n_methods, n_bells):

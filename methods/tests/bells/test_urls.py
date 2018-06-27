@@ -20,18 +20,14 @@ class TestBellsUrls(TestCase):
 
     def test_about_status(self):
         response = self.client.get('/about')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, 200)
 
     def test_about_url(self):
-        self.assertEqual(reverse(viewname='about'), '/about/')
-
-    def test_methods_status(self):
-        response = self.client.get('/methods')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(reverse(viewname='about'), '/about')
 
     def test_search_status(self):
-        response = self.client.get('/search')
-        self.assertEqual(response.status_code, 301)
+        response = self.client.get('/search/?q=test')
+        self.assertEqual(response.status_code, 200)
 
 
 class TestSiteMapUrls(TestCase):
