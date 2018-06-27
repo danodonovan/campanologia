@@ -1,8 +1,6 @@
+sudo: false
 language: python
 python:
-  - "2.7"
   - "3.6"
-env:
-  - SECRET_KEY="TRAVIS_SECRET_KEY"
-install: "pip install -r requirements.txt"
-script: python manage.py test
+install: pip install tox-travis
+script: tox
