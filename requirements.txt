@@ -1,5 +1,5 @@
 Django==1.11.28
-lxml==3.7.3
+lxml==4.5.0
 django-haystack==2.8.1
 python-dotenv==0.6.4
 zappa==0.46.0
