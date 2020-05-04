@@ -1,4 +1,4 @@
-Django==1.11.28
+Django==3.0.6
 lxml==4.5.0
 django-haystack==2.8.1
 python-dotenv==0.12.0
